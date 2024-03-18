@@ -20,7 +20,7 @@ void telaInicial () {
     
     textcolor(WHITE); // Muda a cor do texto para branca
 
-    printf(":::::::::::::::::::::::::::::::::::::::::::::::::::::::FREE CELL::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+    printf(":::::::::::::::::::::::::::::::::::::::::::::::::::::::PACIENCIA::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
     printf("\nOBJETIVO:\n\n- Preencher, com a menor quantidade de movimentos possiveis, os 4 naipes disponiveis com as cartas em ordem crescente e do mesmo naipe.\n");
     printf("\nREGRAS:\n");
     printf("\n- As cartas das pilhas da mesa que serao movidas estao mais a direita.");
@@ -38,16 +38,6 @@ void telaInicial () {
 void executar () {
 
 }
-
-
-
-
-
-
-
-
-
-
 
 int main() {
     executar();
