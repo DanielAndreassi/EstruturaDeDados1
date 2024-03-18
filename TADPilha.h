@@ -2,7 +2,7 @@
 
 struct tpCarta
 {
-	int naipe, preto;
+	int naipe, preto, virada;
 	char figura;
 }
 
