@@ -23,8 +23,12 @@ void moveTempMesa();
 void moveMesaNaipe();
 void moveNaipeTemp();
 void moveTempNaipe();
+int verificaGanhou();
+int verificaPodeEfeturarjogada();
 void moveNaipeMesa();
+char menuPrincipal();
 void moveMesaMesa();
+void exibirInterfaceInicial(TpPilha p1, TpPilha p2, TpPilha p3, TpPilha p4, TpPilha p5, TpPilha p6, TpPilha p7);
 void popularPilhasColunas(TpPilha &monte, TpPilha &p1, TpPilha &p2, TpPilha &p3, TpPilha &p4, TpPilha &p5, TpPilha &p6, TpPilha &p7);
 void inicializarMesa(
     TpPilha &pilhaMonte,
@@ -42,6 +46,7 @@ void inicializarMesa(
     TpPilha &pilhaColuna7);
 void criaBaralho(TpPilha &p);
 void embaralhar(tpCarta *baralho, int n);
+void limpaMenu();
 
 void telaInicial()
 {
@@ -252,7 +257,23 @@ void exibirInterfaceInicial(TpPilha p1, TpPilha p2, TpPilha p3, TpPilha p4, TpPi
     gotoxy(77, 14);
     printf("-------");
 
-    gotoxy(2, 24);
+    // gotoxy(2, 24);
+}
+
+char menuPrincipal()
+{
+    gotoxy(1, 16);
+    printf("[A] \n");
+    printf("[B] \n");
+    printf("[C] \n");
+    printf("[D] \n");
+    printf("[E] \n");
+    printf("[F] \n");
+    printf("[G] \n");
+    printf("[H] \n");
+    printf("[ESC] Sair\n");
+    printf("Opcao desejada: ");
+    return toupper(getche());
 }
 
 void inicializarMesa(
@@ -270,29 +291,13 @@ void inicializarMesa(
     TpPilha &pilhaColuna6,
     TpPilha &pilhaColuna7)
 {
+    // fazer sistema de pontuação?
+    // pode desfazer jogada?
     // CRIAR BARALHO
     criaBaralho(pilhaMonte);
     // POPULAR PILHAS MONTE
     popularPilhasColunas(pilhaMonte, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7);
     exibirInterfaceInicial(pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7);
-    // CONFIRMAÇÃO
-    // ExbibirTemporarioSoVerPilha(pilhaColuna1);
-    // printf("\n");
-    // ExbibirTemporarioSoVerPilha(pilhaColuna2);
-    // printf("\n");
-    // ExbibirTemporarioSoVerPilha(pilhaColuna3);
-    // printf("\n");
-    // ExbibirTemporarioSoVerPilha(pilhaColuna4);
-    // printf("\n");
-    // ExbibirTemporarioSoVerPilha(pilhaColuna5);
-    // printf("\n");
-    // ExbibirTemporarioSoVerPilha(pilhaColuna6);
-    // printf("\n");
-    // ExbibirTemporarioSoVerPilha(pilhaColuna7);
-    // printf("\n");
-    // fazer sistema de pontuação?
-    // pode desfazer jogada?
-    // popular PilhasColunas
 }
 
 void moveMesaFixo()
@@ -321,6 +326,8 @@ void moveMesaMesa()
 
 void executar()
 {
+    // fazer sistema de pontuação?
+    // pode desfazer jogada?
     TpPilha pilhaMonte, pilhaMonteVirado, pilhaFixo1, pilhaFixo2, pilhaFixo3, pilhaFixo4, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7;
     Inicializar(pilhaMonte);
     Inicializar(pilhaMonteVirado);
@@ -336,12 +343,69 @@ void executar()
     Inicializar(pilhaColuna6);
     Inicializar(pilhaColuna7);
     inicializarMesa(pilhaMonte, pilhaMonteVirado, pilhaFixo1, pilhaFixo2, pilhaFixo3, pilhaFixo4, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7);
-    // inicializarMesa
+    char op;
+    do
+    {
+        op = menuPrincipal();
+        switch (op)
+        {
+        case 'A':
+            printf("\nEntrou na op A\nDigite algo pra voltar...");
+            getch();
+            limpaMenu();
+            break;
+        case 'B':
+            /* code */
+            break;
+        case 'C':
+            /* code */
+            break;
+        case 'D':
+            /* code */
+            break;
+        case 'E':
+            /* code */
+            break;
+        case 'F':
+            /* code */
+            break;
+        case 'G':
+            /* code */
+            break;
+        case 'H':
+            /* code */
+            break;
+        default:
+            break;
+        }
+    } while (op != 27 /*&& verificaGanhou()*/);
+}
+
+void limpaMenu()
+{
+    // printar espacos pra limpar menu
+    for (int i = 16; i <= 30; i++)
+    {
+        for (int j = 1; j < 80; j++)
+        {
+            gotoxy(j, i);
+            printf(" ");
+        }
+    }
+}
+
+int verificaGanhou()
+{
+    // verificar se os 4 montes dos naipes estão cheios
+}
+
+int verificaPodeEfeturarjogada()
+{
+    // verificar se carta pode entrar no monte designado
 }
 
 int main()
 {
     executar();
-
     return 0;
 }
