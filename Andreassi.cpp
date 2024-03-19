@@ -3,8 +3,9 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <ctype.h>
-#include <math.h>
 #include <conio2.h>
+#include <math.h>
+#include <time.h>
 
 // todas os conceitos de pilha estao nos include, pilha normal,listas concorrentes(TADPilhaM1) e pilhas multiplas(TADPilhaM2)
 #include "TADPilha.h"
@@ -12,29 +13,46 @@
 // #include "TADPilhaM2.h"
 
 // declarao de funcoes
-//auxiliares
+// auxiliares
 void telaInicial();
 void executar();
-//mover cartas
+// mover cartas
 void destribuirMesa();
 void moveMesaTemp();
 void moveTempMesa();
 void moveMesaNaipe();
 void moveNaipeTemp();
 void moveTempNaipe();
+int verificaGanhou();
+int verificaPodeEfeturarjogada();
 void moveNaipeMesa();
+char menuPrincipal();
 void moveMesaMesa();
-//funcoes
-
-void destribuirMesa() {
-
-}
+void exibirInterfaceInicial(TpPilha p1, TpPilha p2, TpPilha p3, TpPilha p4, TpPilha p5, TpPilha p6, TpPilha p7);
+void popularPilhasColunas(TpPilha &monte, TpPilha &p1, TpPilha &p2, TpPilha &p3, TpPilha &p4, TpPilha &p5, TpPilha &p6, TpPilha &p7);
+void inicializarMesa(
+    TpPilha &pilhaMonte,
+    TpPilha &pilhaMonteVirado,
+    TpPilha &pilhaFixo1,
+    TpPilha &pilhaFixo2,
+    TpPilha &pilhaFixo3,
+    TpPilha &pilhaFixo4,
+    TpPilha &pilhaColuna1,
+    TpPilha &pilhaColuna2,
+    TpPilha &pilhaColuna3,
+    TpPilha &pilhaColuna4,
+    TpPilha &pilhaColuna5,
+    TpPilha &pilhaColuna6,
+    TpPilha &pilhaColuna7);
+void criaBaralho(TpPilha &p);
+void embaralhar(tpCarta *baralho, int n);
+void limpaMenu();
 
 void telaInicial()
 {
     system("cls");
 
-    textcolor(WHITE); // Muda a cor do texto para branca
+    // textcolor(WHITE); // Muda a cor do texto para branca
 
     printf("::::::::::::::::::::::::::::::::::::::::::::::::::::::: PACIENCIA ::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
     printf("\nOBJETIVO:\n\n- Preencher, com a menor quantidade de movimentos possiveis, os 4 naipes disponiveis com as cartas em ordem crescente e do mesmo naipe.\n");
@@ -51,32 +69,266 @@ void telaInicial()
     system("pause");
 }
 
-void moveMesaFixo() {
+void criaBaralho(TpPilha &p)
+{
+    tpCarta aux[52];
+    char figuras[13][3] = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+    int naipe[4] = {1, 2, 3, 4};
+    int cont = 0;
+    for (int i = 0; i < 13; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            strcpy(aux[cont].figura, figuras[i]);
+            aux[cont].naipe = naipe[j];
+            if (naipe[j] % 2 == 0)
+            {
+                aux[cont].preto = 1;
+            }
+            else
+            {
+                aux[cont].preto = 0;
+            }
+            cont++;
+        }
+    }
+    srand(time(NULL));
+    embaralhar(aux, 52);
+    for (int i = 0; i < 52; i++)
+    {
+        // aux[i];
+        // printf("%s\t%d\t%d\n", aux[i].figura, aux[i].naipe, aux[i].preto);
+        Push(p, aux[i]);
+    }
 }
 
-void moveTempMesa() {
-
+void embaralhar(tpCarta *baralho, int n)
+{
+    for (int i = n - 1; i > 0; i--)
+    {
+        int j = rand() % (i + 1);
+        tpCarta temp = baralho[i];
+        baralho[i] = baralho[j];
+        baralho[j] = temp;
+    }
 }
 
-void moveMesaNaipe() {
-
+void popularPilhasColunas(TpPilha &monte, TpPilha &p1, TpPilha &p2, TpPilha &p3, TpPilha &p4, TpPilha &p5, TpPilha &p6, TpPilha &p7)
+{
+    // TpPilha aux[7] = {p1,
+    //                   p2,
+    //                   p3,
+    //                   p4,
+    //                   p5,
+    //                   p6,
+    //                   p7};
+    // for (int i = 1; i <= 7; i++)
+    // {
+    //     printf("i %d", i);
+    //     for (int j = 1; j <= i; j++)
+    //     {
+    //         printf(" j %d\n", i);
+    //         Push(aux[i - 1], Pop(monte));
+    //     }
+    // }
+    Push(p1, Pop(monte));
+    Push(p2, Pop(monte));
+    Push(p2, Pop(monte));
+    Push(p3, Pop(monte));
+    Push(p3, Pop(monte));
+    Push(p3, Pop(monte));
+    Push(p4, Pop(monte));
+    Push(p4, Pop(monte));
+    Push(p4, Pop(monte));
+    Push(p4, Pop(monte));
+    Push(p5, Pop(monte));
+    Push(p5, Pop(monte));
+    Push(p5, Pop(monte));
+    Push(p5, Pop(monte));
+    Push(p5, Pop(monte));
+    Push(p6, Pop(monte));
+    Push(p6, Pop(monte));
+    Push(p6, Pop(monte));
+    Push(p6, Pop(monte));
+    Push(p6, Pop(monte));
+    Push(p6, Pop(monte));
+    Push(p7, Pop(monte));
+    Push(p7, Pop(monte));
+    Push(p7, Pop(monte));
+    Push(p7, Pop(monte));
+    Push(p7, Pop(monte));
+    Push(p7, Pop(monte));
+    Push(p7, Pop(monte));
 }
 
-void moveTempNaipe() {
+void exibirInterfaceInicial(TpPilha p1, TpPilha p2, TpPilha p3, TpPilha p4, TpPilha p5, TpPilha p6, TpPilha p7)
+{
+    gotoxy(4, 2);
+    printf("BARAI");
 
+    // quadrado esquerda em cima branco com naipes
+    int colI = 2, colF = 11, linI = 3, linF = 8;
+    textbackground(15);
+    for (int i = linI; i <= linF; i++)
+    {
+        for (int j = colI; j <= colF; j++)
+        {
+            gotoxy(j, i);
+            if (j == 6 && i == 5)
+            {
+                textcolor(4);
+                printf("%c", 4);
+            }
+            else if (j == 7 && i == 5)
+            {
+                textcolor(0);
+                printf("%c", 6);
+            }
+            else if (j == 6 && i == 6)
+            {
+                textcolor(4);
+                printf("%c", 3);
+            }
+            else if (j == 7 && i == 6)
+            {
+                textcolor(0);
+                printf("%c", 5);
+            }
+            else
+            {
+                printf(" ");
+            }
+        }
+    }
+    textbackground(0);
+    textcolor(15);
+
+    // as 7 pilhas de cartas
+    gotoxy(14, 2);
+    printf("M - 1");
+    ExbibirTemporarioSoVerPilha(p1, 14, 3, 0);
+    gotoxy(23, 2);
+    printf("M - 2");
+    ExbibirTemporarioSoVerPilha(p2, 23, 3, 0);
+    gotoxy(32, 2);
+    printf("M - 3");
+    ExbibirTemporarioSoVerPilha(p3, 32, 3, 0);
+    gotoxy(41, 2);
+    printf("M - 4");
+    ExbibirTemporarioSoVerPilha(p4, 41, 3, 0);
+    gotoxy(50, 2);
+    printf("M - 5");
+    ExbibirTemporarioSoVerPilha(p5, 50, 3, 0);
+    gotoxy(59, 2);
+    printf("M - 6");
+    ExbibirTemporarioSoVerPilha(p6, 59, 3, 0);
+    gotoxy(68, 2);
+    printf("M - 7");
+    ExbibirTemporarioSoVerPilha(p7, 68, 3, 0);
+
+    // quatro montes auxiliares
+
+    // col77 para aux
+    gotoxy(77, 3);
+    printf("-------");
+    gotoxy(77, 4);
+    printf("|  %c  |", 4);
+    gotoxy(77, 5);
+    printf("-------");
+
+    gotoxy(77, 6);
+    printf("-------");
+    gotoxy(77, 7);
+    printf("|  %c  |", 6);
+    gotoxy(77, 8);
+    printf("-------");
+
+    gotoxy(77, 9);
+    printf("-------");
+    gotoxy(77, 10);
+    printf("|  %c  |", 3);
+    gotoxy(77, 11);
+    printf("-------");
+
+    gotoxy(77, 12);
+    printf("-------");
+    gotoxy(77, 13);
+    printf("|  %c  |", 5);
+    gotoxy(77, 14);
+    printf("-------");
+
+    // gotoxy(2, 24);
 }
 
-void moveNaipeMesa() {
-
+char menuPrincipal()
+{
+    gotoxy(1, 16);
+    printf("[A] \n");
+    printf("[B] \n");
+    printf("[C] \n");
+    printf("[D] \n");
+    printf("[E] \n");
+    printf("[F] \n");
+    printf("[G] \n");
+    printf("[H] \n");
+    printf("[ESC] Sair\n");
+    printf("Opcao desejada: ");
+    return toupper(getche());
 }
 
-void moveMesaMesa() {
+void inicializarMesa(
+    TpPilha &pilhaMonte,
+    TpPilha &pilhaMonteVirado,
+    TpPilha &pilhaFixo1,
+    TpPilha &pilhaFixo2,
+    TpPilha &pilhaFixo3,
+    TpPilha &pilhaFixo4,
+    TpPilha &pilhaColuna1,
+    TpPilha &pilhaColuna2,
+    TpPilha &pilhaColuna3,
+    TpPilha &pilhaColuna4,
+    TpPilha &pilhaColuna5,
+    TpPilha &pilhaColuna6,
+    TpPilha &pilhaColuna7)
+{
+    // fazer sistema de pontuação?
+    // pode desfazer jogada?
+    // CRIAR BARALHO
+    criaBaralho(pilhaMonte);
+    // POPULAR PILHAS MONTE
+    popularPilhasColunas(pilhaMonte, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7);
+    exibirInterfaceInicial(pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7);
+}
 
+void moveMesaFixo()
+{
+}
+
+void moveTempMesa()
+{
+}
+
+void moveMesaNaipe()
+{
+}
+
+void moveTempNaipe()
+{
+}
+
+void moveNaipeMesa()
+{
+}
+
+void moveMesaMesa()
+{
 }
 
 void executar()
 {
-    TpPilha pilhaMonte,pilhaMonteVirado,pilhaFixo1,pilhaFixo2,pilhaFixo3,pilhaFixo4,pilhaColuna1,pilhaColuna2,pilhaColuna3,pilhaColuna4,pilhaColuna5,pilhaColuna6,pilhaColuna7;
+    // fazer sistema de pontuação?
+    // pode desfazer jogada?
+    TpPilha pilhaMonte, pilhaMonteVirado, pilhaFixo1, pilhaFixo2, pilhaFixo3, pilhaFixo4, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7;
     Inicializar(pilhaMonte);
     Inicializar(pilhaMonteVirado);
     Inicializar(pilhaFixo1);
@@ -89,7 +341,67 @@ void executar()
     Inicializar(pilhaColuna4);
     Inicializar(pilhaColuna5);
     Inicializar(pilhaColuna6);
-    Inicializar(pilhaColuna7);    
+    Inicializar(pilhaColuna7);
+    inicializarMesa(pilhaMonte, pilhaMonteVirado, pilhaFixo1, pilhaFixo2, pilhaFixo3, pilhaFixo4, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7);
+    char op;
+    do
+    {
+        op = menuPrincipal();
+        switch (op)
+        {
+        case 'A':
+            printf("\nEntrou na op A\nDigite algo pra voltar...");
+            getch();
+            limpaMenu();
+            break;
+        case 'B':
+            /* code */
+            break;
+        case 'C':
+            /* code */
+            break;
+        case 'D':
+            /* code */
+            break;
+        case 'E':
+            /* code */
+            break;
+        case 'F':
+            /* code */
+            break;
+        case 'G':
+            /* code */
+            break;
+        case 'H':
+            /* code */
+            break;
+        default:
+            break;
+        }
+    } while (op != 27 /*&& verificaGanhou()*/);
+}
+
+void limpaMenu()
+{
+    // printar espacos pra limpar menu
+    for (int i = 16; i <= 30; i++)
+    {
+        for (int j = 1; j < 80; j++)
+        {
+            gotoxy(j, i);
+            printf(" ");
+        }
+    }
+}
+
+int verificaGanhou()
+{
+    // verificar se os 4 montes dos naipes estão cheios
+}
+
+int verificaPodeEfeturarjogada()
+{
+    // verificar se carta pode entrar no monte designado
 }
 
 int main()
