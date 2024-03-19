@@ -23,7 +23,7 @@ tpCarta Pop(TpPilha &P);
 char Vazia(int topo);
 char Cheia(int topo);
 tpCarta ElementoTopo(TpPilha P);
-void ExbibirTemporarioSoVerPilha(TpPilha P);
+void ExbibirTemporarioSoVerPilha(TpPilha P, int colI, int linI, int mostrarSomenteTopo);
 
 void Inicializar(TpPilha &P)
 {
@@ -45,15 +45,13 @@ tpCarta ElementoTopo(TpPilha P)
 	return P.PILHA[P.TOPO];
 }
 
-void ExbibirTemporarioSoVerPilha(TpPilha P)
+void ExbibirTemporarioSoVerPilha(TpPilha P, int colI, int linI, int mostrarSomenteTopo)
 {
 	tpCarta aux;
-	while (!Vazia(P.TOPO))
+	if (mostrarSomenteTopo)
 	{
 		aux = Pop(P);
 		int cor, auxNaipe = aux.naipe;
-		// fundo branco
-
 		switch (auxNaipe)
 		{
 		case 1:
@@ -78,14 +76,55 @@ void ExbibirTemporarioSoVerPilha(TpPilha P)
 		}
 		// textcolor(cor);
 		// textbackground(15);
-		// gotoxy(fodac);
+		gotoxy(colI, linI);
 		printf("[%s]", aux.figura);
 		textcolor(cor);
 		textbackground(15);
 		printf("[%c]", auxNaipe);
 		textbackground(0);
 		textcolor(15);
-		printf("\n");
+	}
+	else
+	{
+		int qteCartas = P.TOPO;
+		int linhaAux = qteCartas + linI;
+		while (!Vazia(P.TOPO))
+		{
+			aux = Pop(P);
+			int cor, auxNaipe = aux.naipe;
+			switch (auxNaipe)
+			{
+			case 1:
+				// cor vermelho
+				cor = 4;
+				auxNaipe = 4;
+				break;
+			case 2:
+				// cor preto
+				cor = 0;
+				auxNaipe = 6;
+				break;
+			case 3:
+				cor = 4;
+				auxNaipe = 3;
+				break;
+			case 4:
+				// cor preto
+				cor = 0;
+				auxNaipe = 5;
+				break;
+			}
+			// textcolor(cor);
+			// textbackground(15);
+			gotoxy(colI, linhaAux);
+			printf("[%s]", aux.figura);
+			textcolor(cor);
+			textbackground(15);
+			printf("[%c]", auxNaipe);
+			linhaAux--;
+			textbackground(0);
+			textcolor(15);
+		}
 	}
 }
 

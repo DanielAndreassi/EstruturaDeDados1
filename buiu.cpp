@@ -110,22 +110,133 @@ void embaralhar(tpCarta *baralho, int n)
 
 void popularPilhasColunas(TpPilha &monte, TpPilha &p1, TpPilha &p2, TpPilha &p3, TpPilha &p4, TpPilha &p5, TpPilha &p6, TpPilha &p7)
 {
-    TpPilha aux[7] = {p1,
-                      p2,
-                      p3,
-                      p4,
-                      p5,
-                      p6,
-                      p7};
-    for (int i = 1; i <= 7; i++)
+    // TpPilha aux[7] = {p1,
+    //                   p2,
+    //                   p3,
+    //                   p4,
+    //                   p5,
+    //                   p6,
+    //                   p7};
+    // for (int i = 1; i <= 7; i++)
+    // {
+    //     printf("i %d", i);
+    //     for (int j = 1; j <= i; j++)
+    //     {
+    //         printf(" j %d\n", i);
+    //         Push(aux[i - 1], Pop(monte));
+    //     }
+    // }
+    Push(p1, Pop(monte));
+    Push(p2, Pop(monte));
+    Push(p2, Pop(monte));
+    Push(p3, Pop(monte));
+    Push(p3, Pop(monte));
+    Push(p3, Pop(monte));
+    Push(p4, Pop(monte));
+    Push(p4, Pop(monte));
+    Push(p4, Pop(monte));
+    Push(p4, Pop(monte));
+    Push(p5, Pop(monte));
+    Push(p5, Pop(monte));
+    Push(p5, Pop(monte));
+    Push(p5, Pop(monte));
+    Push(p5, Pop(monte));
+    Push(p6, Pop(monte));
+    Push(p6, Pop(monte));
+    Push(p6, Pop(monte));
+    Push(p6, Pop(monte));
+    Push(p6, Pop(monte));
+    Push(p6, Pop(monte));
+    Push(p7, Pop(monte));
+    Push(p7, Pop(monte));
+    Push(p7, Pop(monte));
+    Push(p7, Pop(monte));
+    Push(p7, Pop(monte));
+    Push(p7, Pop(monte));
+    Push(p7, Pop(monte));
+}
+
+void exibirInterfaceInicial(TpPilha p1, TpPilha p2, TpPilha p3, TpPilha p4, TpPilha p5, TpPilha p6, TpPilha p7)
+{
+    // quadrado esquerda em cima branco com naipes
+    int colI = 2, colF = 11, linI = 3, linF = 8;
+    textbackground(15);
+    for (int i = linI; i <= linF; i++)
     {
-        printf("i %d", i);
-        for (int j = 1; j <= i; j++)
+        for (int j = colI; j <= colF; j++)
         {
-            printf(" j %d\n", i);
-            Push(aux[i - 1], Pop(monte));
+            gotoxy(j, i);
+            if (j == 6 && i == 5)
+            {
+                textcolor(4);
+                printf("%c", 4);
+            }
+            else if (j == 7 && i == 5)
+            {
+                textcolor(0);
+                printf("%c", 6);
+            }
+            else if (j == 6 && i == 6)
+            {
+                textcolor(4);
+                printf("%c", 3);
+            }
+            else if (j == 7 && i == 6)
+            {
+                textcolor(0);
+                printf("%c", 5);
+            }
+            else
+            {
+                printf(" ");
+            }
         }
     }
+    textbackground(0);
+    textcolor(15);
+
+    // as 7 pilhas de cartas
+
+    ExbibirTemporarioSoVerPilha(p1, 14, 3, 0);
+    ExbibirTemporarioSoVerPilha(p2, 23, 3, 0);
+    ExbibirTemporarioSoVerPilha(p3, 32, 3, 0);
+    ExbibirTemporarioSoVerPilha(p4, 41, 3, 0);
+    ExbibirTemporarioSoVerPilha(p5, 50, 3, 0);
+    ExbibirTemporarioSoVerPilha(p6, 59, 3, 0);
+    ExbibirTemporarioSoVerPilha(p7, 68, 3, 0);
+
+    // quatro montes auxiliares
+
+    // col77 para aux
+    gotoxy(77, 3);
+    printf("-------");
+    gotoxy(77, 4);
+    printf("|  %c  |", 4);
+    gotoxy(77, 5);
+    printf("-------");
+
+    gotoxy(77, 6);
+    printf("-------");
+    gotoxy(77, 7);
+    printf("|  %c  |", 6);
+    gotoxy(77, 8);
+    printf("-------");
+
+    gotoxy(77, 9);
+    printf("-------");
+    gotoxy(77, 10);
+    printf("|  %c  |", 3);
+    gotoxy(77, 11);
+    printf("-------");
+
+    gotoxy(77, 12);
+    printf("-------");
+    gotoxy(77, 13);
+    printf("|  %c  |", 5);
+    gotoxy(77, 14);
+    printf("-------");
+
+    gotoxy(2, 24);
 }
 
 void inicializarMesa(
@@ -143,8 +254,12 @@ void inicializarMesa(
     TpPilha &pilhaColuna6,
     TpPilha &pilhaColuna7)
 {
+    // CRIAR BARALHO
     criaBaralho(pilhaMonte);
-    // popularPilhasColunas(pilhaMonte, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7);
+    // POPULAR PILHAS MONTE
+    popularPilhasColunas(pilhaMonte, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7);
+    exibirInterfaceInicial(pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7);
+    // CONFIRMAÇÃO
     // ExbibirTemporarioSoVerPilha(pilhaColuna1);
     // printf("\n");
     // ExbibirTemporarioSoVerPilha(pilhaColuna2);
@@ -211,5 +326,6 @@ void executar()
 int main()
 {
     executar();
+
     return 0;
 }
