@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <ctype.h>
 #include <math.h>
+#include <conio2.h>
 
 // todas os conceitos de pilha estao nos include, pilha normal,listas concorrentes(TADPilhaM1) e pilhas multiplas(TADPilhaM2)
 #include "TADPilha.h"
@@ -11,8 +12,24 @@
 #include "TADPilhaM2.h"
 
 // declarao de funcoes
+//auxiliares
 void telaInicial();
 void executar();
+//mover cartas
+void destribuirMesa();
+void moveMesaTemp();
+void moveTempMesa();
+void moveMesaNaipe();
+void moveNaipeTemp();
+void moveTempNaipe();
+void moveNaipeMesa();
+void moveMesaMesa();
+//funcoes
+
+
+void destribuirMesa() {
+
+}
 
 void telaInicial()
 {
@@ -35,8 +52,35 @@ void telaInicial()
     system("pause");
 }
 
+void moveMesaTemp() {
+}
+
+void moveTempMesa() {
+
+}
+
+void moveMesaNaipe() {
+
+}
+
+void moveNaipeTemp() {
+}
+
+void moveTempNaipe() {
+
+}
+
+void moveNaipeMesa() {
+
+}
+
+void moveMesaMesa() {
+
+}
+
 void executar()
 {
+    telaInicial();
 }
 
 int main()

@@ -4,7 +4,7 @@ struct tpCarta
 {
 	int naipe, preto, virada;
 	char figura;
-}
+};
 
 struct TpPilha
 {
@@ -39,12 +39,12 @@ tpCarta ElementoTopo(TpPilha P)
 	return P.PILHA[P.TOPO];
 }
 
-void Exibir(TpPilha P)
-{
+//void Exibir(TpPilha P)
+//{
 	// while (!Vazia(P.TOPO))
 	// 	printf("\n%c",Pop(P));
 	// IMPLEMENTAR
-}
+//}
 
 char Vazia(int topo)
 {
