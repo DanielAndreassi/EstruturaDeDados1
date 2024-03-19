@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <ctype.h>
+#include <conio2.h>
 #include <math.h>
 #include <time.h>
 
@@ -12,10 +13,35 @@
 // #include "TADPilhaM2.h"
 
 // declarao de funcoes
+// auxiliares
 void telaInicial();
 void executar();
+// mover cartas
+void destribuirMesa();
+void moveMesaTemp();
+void moveTempMesa();
+void moveMesaNaipe();
+void moveNaipeTemp();
+void moveTempNaipe();
+void moveNaipeMesa();
+void moveMesaMesa();
+void popularPilhasColunas(TpPilha &monte, TpPilha &p1, TpPilha &p2, TpPilha &p3, TpPilha &p4, TpPilha &p5, TpPilha &p6, TpPilha &p7);
+void inicializarMesa(
+    TpPilha &pilhaMonte,
+    TpPilha &pilhaMonteVirado,
+    TpPilha &pilhaFixo1,
+    TpPilha &pilhaFixo2,
+    TpPilha &pilhaFixo3,
+    TpPilha &pilhaFixo4,
+    TpPilha &pilhaColuna1,
+    TpPilha &pilhaColuna2,
+    TpPilha &pilhaColuna3,
+    TpPilha &pilhaColuna4,
+    TpPilha &pilhaColuna5,
+    TpPilha &pilhaColuna6,
+    TpPilha &pilhaColuna7);
+void criaBaralho(TpPilha &p);
 void embaralhar(tpCarta *baralho, int n);
-void criabaralho();
 
 void telaInicial()
 {
@@ -38,7 +64,7 @@ void telaInicial()
     system("pause");
 }
 
-void criabaralho(TpPilha &p)
+void criaBaralho(TpPilha &p)
 {
     tpCarta aux[52];
     char figuras[13][3] = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
@@ -82,13 +108,108 @@ void embaralhar(tpCarta *baralho, int n)
     }
 }
 
+void popularPilhasColunas(TpPilha &monte, TpPilha &p1, TpPilha &p2, TpPilha &p3, TpPilha &p4, TpPilha &p5, TpPilha &p6, TpPilha &p7)
+{
+    TpPilha aux[7] = {p1,
+                      p2,
+                      p3,
+                      p4,
+                      p5,
+                      p6,
+                      p7};
+    for (int i = 1; i <= 7; i++)
+    {
+        printf("i %d", i);
+        for (int j = 1; j <= i; j++)
+        {
+            printf(" j %d\n", i);
+            Push(aux[i - 1], Pop(monte));
+        }
+    }
+}
+
+void inicializarMesa(
+    TpPilha &pilhaMonte,
+    TpPilha &pilhaMonteVirado,
+    TpPilha &pilhaFixo1,
+    TpPilha &pilhaFixo2,
+    TpPilha &pilhaFixo3,
+    TpPilha &pilhaFixo4,
+    TpPilha &pilhaColuna1,
+    TpPilha &pilhaColuna2,
+    TpPilha &pilhaColuna3,
+    TpPilha &pilhaColuna4,
+    TpPilha &pilhaColuna5,
+    TpPilha &pilhaColuna6,
+    TpPilha &pilhaColuna7)
+{
+    criaBaralho(pilhaMonte);
+    // popularPilhasColunas(pilhaMonte, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7);
+    // ExbibirTemporarioSoVerPilha(pilhaColuna1);
+    // printf("\n");
+    // ExbibirTemporarioSoVerPilha(pilhaColuna2);
+    // printf("\n");
+    // ExbibirTemporarioSoVerPilha(pilhaColuna3);
+    // printf("\n");
+    // ExbibirTemporarioSoVerPilha(pilhaColuna4);
+    // printf("\n");
+    // ExbibirTemporarioSoVerPilha(pilhaColuna5);
+    // printf("\n");
+    // ExbibirTemporarioSoVerPilha(pilhaColuna6);
+    // printf("\n");
+    // ExbibirTemporarioSoVerPilha(pilhaColuna7);
+    // printf("\n");
+    // fazer sistema de pontuação?
+    // pode desfazer jogada?
+    // popular PilhasColunas
+}
+
+void moveMesaFixo()
+{
+}
+
+void moveTempMesa()
+{
+}
+
+void moveMesaNaipe()
+{
+}
+
+void moveTempNaipe()
+{
+}
+
+void moveNaipeMesa()
+{
+}
+
+void moveMesaMesa()
+{
+}
+
 void executar()
 {
+    TpPilha pilhaMonte, pilhaMonteVirado, pilhaFixo1, pilhaFixo2, pilhaFixo3, pilhaFixo4, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7;
+    Inicializar(pilhaMonte);
+    Inicializar(pilhaMonteVirado);
+    Inicializar(pilhaFixo1);
+    Inicializar(pilhaFixo2);
+    Inicializar(pilhaFixo3);
+    Inicializar(pilhaFixo4);
+    Inicializar(pilhaColuna1);
+    Inicializar(pilhaColuna2);
+    Inicializar(pilhaColuna3);
+    Inicializar(pilhaColuna4);
+    Inicializar(pilhaColuna5);
+    Inicializar(pilhaColuna6);
+    Inicializar(pilhaColuna7);
+    inicializarMesa(pilhaMonte, pilhaMonteVirado, pilhaFixo1, pilhaFixo2, pilhaFixo3, pilhaFixo4, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7);
+    // inicializarMesa
 }
 
 int main()
 {
-    // executar();
-    criabaralho();
+    executar();
     return 0;
 }
