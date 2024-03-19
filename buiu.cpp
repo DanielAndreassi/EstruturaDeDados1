@@ -158,6 +158,9 @@ void popularPilhasColunas(TpPilha &monte, TpPilha &p1, TpPilha &p2, TpPilha &p3,
 
 void exibirInterfaceInicial(TpPilha p1, TpPilha p2, TpPilha p3, TpPilha p4, TpPilha p5, TpPilha p6, TpPilha p7)
 {
+    gotoxy(4, 2);
+    printf("BARAI");
+
     // quadrado esquerda em cima branco com naipes
     int colI = 2, colF = 11, linI = 3, linF = 8;
     textbackground(15);
@@ -196,13 +199,26 @@ void exibirInterfaceInicial(TpPilha p1, TpPilha p2, TpPilha p3, TpPilha p4, TpPi
     textcolor(15);
 
     // as 7 pilhas de cartas
-
+    gotoxy(14, 2);
+    printf("M - 1");
     ExbibirTemporarioSoVerPilha(p1, 14, 3, 0);
+    gotoxy(23, 2);
+    printf("M - 2");
     ExbibirTemporarioSoVerPilha(p2, 23, 3, 0);
+    gotoxy(32, 2);
+    printf("M - 3");
     ExbibirTemporarioSoVerPilha(p3, 32, 3, 0);
+    gotoxy(41, 2);
+    printf("M - 4");
     ExbibirTemporarioSoVerPilha(p4, 41, 3, 0);
+    gotoxy(50, 2);
+    printf("M - 5");
     ExbibirTemporarioSoVerPilha(p5, 50, 3, 0);
+    gotoxy(59, 2);
+    printf("M - 6");
     ExbibirTemporarioSoVerPilha(p6, 59, 3, 0);
+    gotoxy(68, 2);
+    printf("M - 7");
     ExbibirTemporarioSoVerPilha(p7, 68, 3, 0);
 
     // quatro montes auxiliares
