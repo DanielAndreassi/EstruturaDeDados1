@@ -2,9 +2,13 @@
 
 struct tpCarta
 {
-	int naipe, preto, virada;
-	char figura;
-}
+	// 1 - OURO
+	// 2 - ESPADA
+	// 3 - COPAS
+	// 4 - PAUS
+	int naipe, preto;
+	char figura[3];
+};
 
 struct TpPilha
 {
@@ -15,7 +19,7 @@ struct TpPilha
 void Inicializar(TpPilha &P);
 void Push(TpPilha &P, tpCarta Elemento);
 tpCarta Pop(TpPilha &P);
-tpCarta Exibir(TpPilha P);
+void Exibir(TpPilha P);
 char Vazia(int topo);
 char Cheia(int topo);
 

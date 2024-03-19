@@ -4,21 +4,24 @@
 #include <windows.h>
 #include <ctype.h>
 #include <math.h>
+#include <time.h>
 
 // todas os conceitos de pilha estao nos include, pilha normal,listas concorrentes(TADPilhaM1) e pilhas multiplas(TADPilhaM2)
 #include "TADPilha.h"
-#include "TadPilhaM1.h"
-#include "TADPilhaM2.h"
+// #include "TadPilhaM1.h"
+// #include "TADPilhaM2.h"
 
 // declarao de funcoes
 void telaInicial();
 void executar();
+void embaralhar(tpCarta *baralho, int n);
+void criabaralho();
 
 void telaInicial()
 {
     system("cls");
 
-    textcolor(WHITE); // Muda a cor do texto para branca
+    // textcolor(WHITE); // Muda a cor do texto para branca
 
     printf("::::::::::::::::::::::::::::::::::::::::::::::::::::::: PACIENCIA ::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
     printf("\nOBJETIVO:\n\n- Preencher, com a menor quantidade de movimentos possiveis, os 4 naipes disponiveis com as cartas em ordem crescente e do mesmo naipe.\n");
@@ -35,12 +38,57 @@ void telaInicial()
     system("pause");
 }
 
+void criabaralho(TpPilha &p)
+{
+    tpCarta aux[52];
+    char figuras[13][3] = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+    int naipe[4] = {1, 2, 3, 4};
+    int cont = 0;
+    for (int i = 0; i < 13; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            strcpy(aux[cont].figura, figuras[i]);
+            aux[cont].naipe = naipe[j];
+            if (naipe[j] % 2 == 0)
+            {
+                aux[cont].preto = 1;
+            }
+            else
+            {
+                aux[cont].preto = 0;
+            }
+            cont++;
+        }
+    }
+    srand(time(NULL));
+    embaralhar(aux, 52);
+    for (int i = 0; i < 52; i++)
+    {
+        // aux[i];
+        // printf("%s\t%d\t%d\n", aux[i].figura, aux[i].naipe, aux[i].preto);
+        Push(p, aux[i]);
+    }
+}
+
+void embaralhar(tpCarta *baralho, int n)
+{
+    for (int i = n - 1; i > 0; i--)
+    {
+        int j = rand() % (i + 1);
+        tpCarta temp = baralho[i];
+        baralho[i] = baralho[j];
+        baralho[j] = temp;
+    }
+}
+
 void executar()
 {
 }
 
 int main()
 {
-    executar();
+    // executar();
+    criabaralho();
     return 0;
 }
