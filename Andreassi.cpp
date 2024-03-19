@@ -8,8 +8,8 @@
 
 // todas os conceitos de pilha estao nos include, pilha normal,listas concorrentes(TADPilhaM1) e pilhas multiplas(TADPilhaM2)
 #include "TADPilha.h"
-#include "TadPilhaM1.h"
-#include "TADPilhaM2.h"
+// #include "TadPilhaM1.h"
+// #include "TADPilhaM2.h"
 
 // declarao de funcoes
 //auxiliares
@@ -25,7 +25,6 @@ void moveTempNaipe();
 void moveNaipeMesa();
 void moveMesaMesa();
 //funcoes
-
 
 void destribuirMesa() {
 
@@ -52,7 +51,7 @@ void telaInicial()
     system("pause");
 }
 
-void moveMesaTemp() {
+void moveMesaFixo() {
 }
 
 void moveTempMesa() {
@@ -61,9 +60,6 @@ void moveTempMesa() {
 
 void moveMesaNaipe() {
 
-}
-
-void moveNaipeTemp() {
 }
 
 void moveTempNaipe() {
@@ -80,7 +76,20 @@ void moveMesaMesa() {
 
 void executar()
 {
-    telaInicial();
+    TpPilha pilhaMonte,pilhaMonteVirado,pilhaFixo1,pilhaFixo2,pilhaFixo3,pilhaFixo4,pilhaColuna1,pilhaColuna2,pilhaColuna3,pilhaColuna4,pilhaColuna5,pilhaColuna6,pilhaColuna7;
+    Inicializar(pilhaMonte);
+    Inicializar(pilhaMonteVirado);
+    Inicializar(pilhaFixo1);
+    Inicializar(pilhaFixo2);
+    Inicializar(pilhaFixo3);
+    Inicializar(pilhaFixo4);
+    Inicializar(pilhaColuna1);
+    Inicializar(pilhaColuna2);
+    Inicializar(pilhaColuna3);
+    Inicializar(pilhaColuna4);
+    Inicializar(pilhaColuna5);
+    Inicializar(pilhaColuna6);
+    Inicializar(pilhaColuna7);    
 }
 
 int main()
