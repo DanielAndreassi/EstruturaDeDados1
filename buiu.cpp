@@ -22,18 +22,20 @@ void moveMesaTemp();
 void moveTempMesa();
 int quantasCartasTemNaPilha(TpPilha p);
 void moveMesaNaipe();
+void moveMonteViradoParaNaipe();
+void moveMonteViradoParaMesa();
 void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, int &qteCartasPilhaMonte);
 void moveNaipeTemp();
+int buscaFigura(char fig[13][3], char figBuscada[3]);
 void moveTempNaipe();
 int verificaGanhou();
 void limparPilhaMonteVirado();
-int verificaPodeEfeturarjogada();
+int verificaPodeEfeturarjogadaMoveNaipeMesa(TpPilha monteNaipe, TpPilha monteMesa);
 void moveNaipeMesa();
 char menuPrincipal(TpPilha pilhaMonte, TpPilha pilhaMonteVirado);
 void moveMesaMesa();
 void exibirInterfaceInicial(TpPilha p1, TpPilha p2, TpPilha p3, TpPilha p4, TpPilha p5, TpPilha p6, TpPilha p7);
 void popularPilhasColunas(TpPilha &monte, TpPilha &p1, TpPilha &p2, TpPilha &p3, TpPilha &p4, TpPilha &p5, TpPilha &p6, TpPilha &p7);
-
 void inicializarMesa(
     TpPilha &pilhaMonte,
     TpPilha &pilhaMonteVirado,
@@ -278,6 +280,8 @@ char menuPrincipal(TpPilha pilhaMonte, TpPilha pilhaMonteVirado)
     printf("[B] Mover da Mesa para Naipe\n");
     printf("[C] Mover monte Naipe para Mesa\n");
     printf("[D] Mover entre montes da Mesa\n");
+    printf("[E] Mover carta do Baralho para Mesa");
+    printf("[E] Mover carta do Baralho para monte Naipe");
     printf("[ESC] Sair\n");
     printf("Opcao desejada: ");
     return toupper(getche());
@@ -323,6 +327,14 @@ void moveNaipeMesa()
 }
 
 void moveMesaMesa()
+{
+}
+
+void moveMonteViradoParaMesa()
+{
+}
+
+void moveMonteViradoParaNaipe()
 {
 }
 
@@ -463,6 +475,12 @@ void executar()
         case 'D':
             moveMesaMesa();
             break;
+        case 'E':
+            moveMonteViradoParaMesa();
+            break;
+        case 'F':
+            moveMonteViradoParaNaipe();
+            break;
         default:
             break;
         }
@@ -487,9 +505,29 @@ int verificaGanhou()
     // verificar se os 4 montes dos naipes estão cheios
 }
 
-int verificaPodeEfeturarjogada()
+int buscaFigura(char fig[13][3], char figBuscada[3])
 {
-    // verificar se carta pode entrar no monte designado
+    for (int i = 0; i < 13; i++)
+        if (strcmp(fig[i], figBuscada) == 0)
+            return i;
+    return -1;
+}
+
+int verificaPodeEfeturarjogadaMoveNaipeMesa(TpPilha monteNaipe, TpPilha monteMesa)
+{
+    // verificar se carta do monte naipe pode entrar no monte mesa designado
+    if (Vazia(monteNaipe.TOPO))
+    {
+        return 0;
+    }
+    char figuras[13][3] = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+    tpCarta cartaTopoMonteNaipe = Pop(monteNaipe), cartaTopoMonteMesa = Pop(monteMesa);
+    if (buscaFigura(figuras, cartaTopoMonteNaipe.figura) > buscaFigura(figuras, cartaTopoMonteMesa.figura) ||
+        cartaTopoMonteNaipe.preto == cartaTopoMonteMesa.preto)
+    {
+        return 0;
+    }
+    return 1;
 }
 
 int main()
