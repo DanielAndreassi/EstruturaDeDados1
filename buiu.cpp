@@ -12,30 +12,35 @@
 // #include "TadPilhaM1.h"
 // #include "TADPilhaM2.h"
 
+int movimentos = 0;
+
 // declarao de funcoes
 // auxiliares
-void telaInicial();
-void executar();
+void limparPilhaMonteVirado();
+int buscaFigura(char fig[13][3], char figBuscada[3]);
+void popularPilhasColunas(TpPilha &monte, TpPilha &p1, TpPilha &p2, TpPilha &p3, TpPilha &p4, TpPilha &p5, TpPilha &p6, TpPilha &p7);
+
 // mover cartas
 void destribuirMesa();
 void moveMesaTemp();
+void moveNaipeMesa(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCopas, TpPilha &pilhaPaus, TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaColuna3, TpPilha &pilhaColuna4, TpPilha &pilhaColuna5, TpPilha &pilhaColuna6, TpPilha &pilhaColuna7);
 void moveTempMesa();
-int quantasCartasTemNaPilha(TpPilha p);
 void moveMesaNaipe();
 void moveMonteViradoParaNaipe();
 void moveMonteViradoParaMesa();
+
+// verificacoes
+int quantasCartasTemNaPilha(TpPilha p);
 void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, int &qteCartasPilhaMonte);
-void moveNaipeTemp();
-int buscaFigura(char fig[13][3], char figBuscada[3]);
-void moveTempNaipe();
-int verificaGanhou();
-void limparPilhaMonteVirado();
 int verificaPodeEfeturarjogadaMoveNaipeMesa(TpPilha monteNaipe, TpPilha monteMesa);
-void moveNaipeMesa();
+int verificaGanhou(TpPilha pilhaOuros, TpPilha pilhaEspadas, TpPilha pilhaCopas, TpPilha pilhaPaus);
+
+// exibir interface e menu
+char submenuMontesNaipe();
+void telaInicial();
+void executar();
 char menuPrincipal(TpPilha pilhaMonte, TpPilha pilhaMonteVirado);
-void moveMesaMesa();
 void exibirInterfaceInicial(TpPilha p1, TpPilha p2, TpPilha p3, TpPilha p4, TpPilha p5, TpPilha p6, TpPilha p7);
-void popularPilhasColunas(TpPilha &monte, TpPilha &p1, TpPilha &p2, TpPilha &p3, TpPilha &p4, TpPilha &p5, TpPilha &p6, TpPilha &p7);
 void inicializarMesa(
     TpPilha &pilhaMonte,
     TpPilha &pilhaMonteVirado,
@@ -50,9 +55,13 @@ void inicializarMesa(
     TpPilha &pilhaColuna5,
     TpPilha &pilhaColuna6,
     TpPilha &pilhaColuna7);
+
 void criaBaralho(TpPilha &p);
 void embaralhar(tpCarta *baralho, int n);
 void limpaMenu();
+void contagemDeMovimentos();
+
+// fim das declaracoes de funcoes
 
 void telaInicial()
 {
@@ -81,6 +90,8 @@ void criaBaralho(TpPilha &p)
     char figuras[13][3] = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
     int naipe[4] = {1, 2, 3, 4};
     int cont = 0;
+    // CUIDADO COM MAGIC NUMBERS 13 E 4 SIGNIFICA O QE PRA QUEM LE DE FORA??
+
     for (int i = 0; i < 13; i++)
     {
         for (int j = 0; j < 4; j++)
@@ -267,7 +278,6 @@ char menuPrincipal(TpPilha pilhaMonte, TpPilha pilhaMonteVirado)
     // MOVER NAIPE -> MESA
     // MOVER MESA -> MESA
     // PEGAR CARTA
-
     gotoxy(1, 18);
     if (Vazia(pilhaMonte.TOPO) && !Vazia(pilhaMonteVirado.TOPO))
     {
@@ -280,8 +290,8 @@ char menuPrincipal(TpPilha pilhaMonte, TpPilha pilhaMonteVirado)
     printf("[B] Mover da Mesa para Naipe\n");
     printf("[C] Mover monte Naipe para Mesa\n");
     printf("[D] Mover entre montes da Mesa\n");
-    printf("[E] Mover carta do Baralho para Mesa");
-    printf("[E] Mover carta do Baralho para monte Naipe");
+    printf("[E] Mover carta do Baralho para Mesa\n");
+    printf("[F] Mover carta do Baralho para monte Naipe\n");
     printf("[ESC] Sair\n");
     printf("Opcao desejada: ");
     return toupper(getche());
@@ -322,8 +332,193 @@ void moveMesaNaipe()
 {
 }
 
-void moveNaipeMesa()
+char submenuMontesNaipe()
 {
+    gotoxy(1, 19);
+    printf("[A] Monte Ouros\n");
+    printf("[B] Monte Espadas\n");
+    printf("[C] Monte Copas\n");
+    printf("[D] Monte Paus\n");
+    printf("Opção desejada: ");
+    return toupper(getche());
+}
+
+char submenuMontesColunas()
+{
+    gotoxy(1, 19);
+    printf("[A] Monte 1\n");
+    printf("[B] Monte 2\n");
+    printf("[C] Monte 3\n");
+    printf("[D] Monte 4\n");
+    printf("[E] Monte 5\n");
+    printf("[F] Monte 6\n");
+    printf("[G] Monte 7\n");
+    printf("Opção desejada: ");
+    return toupper(getche());
+}
+
+void moveNaipeMesa(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCopas, TpPilha &pilhaPaus, TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaColuna3, TpPilha &pilhaColuna4, TpPilha &pilhaColuna5, TpPilha &pilhaColuna6, TpPilha &pilhaColuna7)
+{
+    limpaMenu();
+    gotoxy(1, 18);
+    printf("Mover de: ");
+    char opMoverPara, opMoverDe = submenuMontesNaipe();
+    switch (opMoverDe)
+    {
+    case 'A':
+        // ESCOLHEU MONTE OUROS
+        limpaMenu();
+        gotoxy(1, 18);
+        printf("Para: ");
+        opMoverPara = submenuMontesColunas();
+        switch (opMoverPara)
+        {
+        case 'A':
+            // ESCOLHEU MONTE 1
+            if (verificaPodeEfeturarjogadaMoveNaipeMesa(pilhaOuros, pilhaColuna1))
+            {
+                // PODE FAZER JOGADA
+
+                // retirar ultima carta pilhaOuros
+
+                // limpar interface pilhaOuros
+                // redesenhar ultimo elementos da pilha ouros, se vazia fazer o desenho inicial
+                // adicionar carta na pilhaColuna1
+                // limpar interface pilhaColuna1
+                // redesenhar pilhaColuna1
+                // chamar adicionar movimento
+            }
+            else
+            {
+                limpaMenu();
+                gotoxy(1, 18);
+                printf("Jogada invalida");
+            }
+            break;
+        case 'B':
+            // ESCOLHEU MONTE 2
+            break;
+        case 'C':
+            // ESCOLHEU MONTE 3
+            break;
+        case 'D':
+            // ESCOLHEU MONTE 4
+            break;
+        case 'E':
+            // ESCOLHEU MONTE 5
+            break;
+        case 'F':
+            // ESCOLHEU MONTE 6
+            break;
+        case 'G':
+            // ESCOLHEU MONTE 7
+            break;
+        default:
+            break;
+        }
+        break;
+    case 'B':
+        // ESCOLHEU MONTE ESPADAS
+        limpaMenu();
+        gotoxy(1, 18);
+        printf("Para: ");
+        opMoverPara = submenuMontesColunas();
+        switch (opMoverPara)
+        {
+        case 'A':
+            // ESCOLHEU MONTE 1
+            break;
+        case 'B':
+            // ESCOLHEU MONTE 2
+            break;
+        case 'C':
+            // ESCOLHEU MONTE 3
+            break;
+        case 'D':
+            // ESCOLHEU MONTE 4
+            break;
+        case 'E':
+            // ESCOLHEU MONTE 5
+            break;
+        case 'F':
+            // ESCOLHEU MONTE 6
+            break;
+        case 'G':
+            // ESCOLHEU MONTE 7
+            break;
+        default:
+            break;
+        }
+        break;
+    case 'C':
+        // ESCOLHEU MONTE COPAS
+        limpaMenu();
+        gotoxy(1, 18);
+        printf("Para: ");
+        opMoverPara = submenuMontesColunas();
+        switch (opMoverPara)
+        {
+        case 'A':
+            // ESCOLHEU MONTE 1
+            break;
+        case 'B':
+            // ESCOLHEU MONTE 2
+            break;
+        case 'C':
+            // ESCOLHEU MONTE 3
+            break;
+        case 'D':
+            // ESCOLHEU MONTE 4
+            break;
+        case 'E':
+            // ESCOLHEU MONTE 5
+            break;
+        case 'F':
+            // ESCOLHEU MONTE 6
+            break;
+        case 'G':
+            // ESCOLHEU MONTE 7
+            break;
+        default:
+            break;
+        }
+        break;
+    case 'D':
+        // ESCOLHEU MONTE PAUS
+        limpaMenu();
+        gotoxy(1, 18);
+        printf("Para: ");
+        opMoverPara = submenuMontesColunas();
+        switch (opMoverPara)
+        {
+        case 'A':
+            // ESCOLHEU MONTE 1
+            break;
+        case 'B':
+            // ESCOLHEU MONTE 2
+            break;
+        case 'C':
+            // ESCOLHEU MONTE 3
+            break;
+        case 'D':
+            // ESCOLHEU MONTE 4
+            break;
+        case 'E':
+            // ESCOLHEU MONTE 5
+            break;
+        case 'F':
+            // ESCOLHEU MONTE 6
+            break;
+        case 'G':
+            // ESCOLHEU MONTE 7
+            break;
+        default:
+            break;
+        }
+        break;
+    default:
+        break;
+    }
 }
 
 void moveMesaMesa()
@@ -439,7 +634,7 @@ void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, 
 void executar()
 {
     // fazer sistema de pontuação?
-    // pode desfazer jogada?
+    // pode desfazer jogada? ideia legal
     int qteCartasPilhaMonte;
     TpPilha pilhaMonte, pilhaMonteVirado, pilhaOuros, pilhaEspadas, pilhaCopas, pilhaPaus, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7;
     Inicializar(pilhaMonte);
@@ -468,23 +663,28 @@ void executar()
             break;
         case 'B':
             moveMesaNaipe();
+            // contagemDeMovimentos();
             break;
         case 'C':
-            moveNaipeMesa();
+            moveNaipeMesa(pilhaOuros, pilhaEspadas, pilhaCopas, pilhaPaus, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7);
+            // contagemDeMovimentos();
             break;
         case 'D':
             moveMesaMesa();
+            // contagemDeMovimentos();
             break;
         case 'E':
             moveMonteViradoParaMesa();
+            // contagemDeMovimentos();
             break;
         case 'F':
             moveMonteViradoParaNaipe();
+            // contagemDeMovimentos();
             break;
         default:
             break;
         }
-    } while (op != 27 /*&& verificaGanhou()*/);
+    } while (op != 27 && !verificaGanhou(pilhaOuros, pilhaEspadas, pilhaCopas, pilhaPaus));
 }
 
 void limpaMenu()
@@ -500,9 +700,14 @@ void limpaMenu()
     }
 }
 
-int verificaGanhou()
+int verificaGanhou(TpPilha pilhaOuros, TpPilha pilhaEspadas, TpPilha pilhaCopas, TpPilha pilhaPaus)
 {
     // verificar se os 4 montes dos naipes estão cheios
+    if (quantasCartasTemNaPilha(pilhaOuros) == 13 && quantasCartasTemNaPilha(pilhaEspadas) == 13 && quantasCartasTemNaPilha(pilhaCopas) == 13 && quantasCartasTemNaPilha(pilhaPaus) == 13)
+    {
+        return 1;
+    }
+    return 0;
 }
 
 int buscaFigura(char fig[13][3], char figBuscada[3])
@@ -530,8 +735,27 @@ int verificaPodeEfeturarjogadaMoveNaipeMesa(TpPilha monteNaipe, TpPilha monteMes
     return 1;
 }
 
+void contagemDeMovimentos()
+{
+    movimentos++;
+    gotoxy(1, 20);
+    printf("Movimentos: %d", movimentos);
+}
+
 int main()
 {
     executar();
     return 0;
 }
+
+// a fazeres para agora
+
+// void moveMesaNaipe()
+
+// void moveNaipeMesa()
+
+// void moveMesaMesa()
+
+// void moveMonteViradoParaMesa()
+
+// void moveMonteViradoParaNaipe()
