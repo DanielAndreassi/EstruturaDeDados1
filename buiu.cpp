@@ -20,6 +20,7 @@ void executar();
 void destribuirMesa();
 void moveMesaTemp();
 void moveTempMesa();
+int quantasCartasTemNaPilha(TpPilha p);
 void moveMesaNaipe();
 void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, int &qteCartasPilhaMonte);
 void moveNaipeTemp();
@@ -327,7 +328,7 @@ void moveMesaMesa()
 
 void limparPilhaMonteVirado()
 {
-    int colI = 2, linI = 10, linF = 14, colF = 8;
+    int colI = 2, linI = 10, linF = 15, colF = 9;
     textcolor(15);
     textbackground(0);
     for (int i = linI; i < linF; i++)
@@ -338,6 +339,17 @@ void limparPilhaMonteVirado()
             printf(" ");
         }
     }
+}
+
+int quantasCartasTemNaPilha(TpPilha p)
+{
+    int cont = 0;
+    while (!Vazia(p.TOPO))
+    {
+        Pop(p);
+        cont++;
+    }
+    return cont;
 }
 
 void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, int &qteCartasPilhaMonte)
@@ -351,7 +363,40 @@ void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, 
     }
     else if (Vazia(pilhaMonte.TOPO) && !Vazia(pilhaMonteVirado.TOPO))
     {
+        limparPilhaMonteVirado();
         // jogar as cartas do monte virado pro monte normal, reembaralhar e puxar uma carta
+
+        int qtasCartas = quantasCartasTemNaPilha(pilhaMonteVirado);
+        tpCarta aux[qtasCartas];
+        for (int i = 0; i < qtasCartas; i++)
+            aux[i] = Pop(pilhaMonteVirado);
+
+        srand(time(NULL));
+        embaralhar(aux, qtasCartas);
+        for (int j = 0; j < qtasCartas; j++)
+        {
+            Push(pilhaMonte, aux[j]);
+        }
+        qteCartasPilhaMonte = qtasCartas;
+        // tirar carta do pilhaMonte
+        // colocar no pilhaMonteViredo
+        Push(pilhaMonteVirado, Pop(pilhaMonte));
+        // diminuir contador de cartas no monte
+        qteCartasPilhaMonte--;
+        int aux2 = qteCartasPilhaMonte % 10;
+        textcolor(0);
+        textbackground(15);
+        gotoxy(6, 8);
+        printf("%d", qteCartasPilhaMonte / 10);
+        gotoxy(7, 8);
+        printf("%d", aux2);
+        gotoxy(70, 24);
+        textcolor(15);
+        textbackground(0);
+        // dar clear visual na pilhaMonteVirado
+        // limparPilhaMonteVirado();
+        // exibir pilhaMonteVirado
+        ExbibirTemporarioSoVerPilha(pilhaMonteVirado, 2, 10, 2);
     }
     else
     {
@@ -360,18 +405,8 @@ void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, 
         // tirar carta do pilhaMonte
         // colocar no pilhaMonteViredo
         Push(pilhaMonteVirado, Pop(pilhaMonte));
-
+        // diminuir contador de cartas no monte
         qteCartasPilhaMonte--;
-        /* else if (j == 6 && i == 8)
-            {
-                textcolor(0);
-                printf("2");
-            }
-            else if (j == 7 && i == 8)
-            {
-                textcolor(0);
-                printf("4");
-            }*/
         int aux = qteCartasPilhaMonte % 10;
         textcolor(0);
         textbackground(15);
@@ -382,7 +417,6 @@ void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, 
         gotoxy(70, 24);
         textcolor(15);
         textbackground(0);
-
         // dar clear visual na pilhaMonteVirado
         limparPilhaMonteVirado();
         // exibir pilhaMonteVirado
@@ -418,6 +452,7 @@ void executar()
         {
         case 'A':
             pegarCartaOuResetarBaralho(pilhaMonte, pilhaMonteVirado, qteCartasPilhaMonte);
+            limpaMenu();
             break;
         case 'B':
             moveMesaNaipe();
