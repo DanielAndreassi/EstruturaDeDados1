@@ -21,22 +21,25 @@ void destribuirMesa();
 void moveMesaTemp();
 void moveTempMesa();
 void moveMesaNaipe();
+void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, int &qteCartasPilhaMonte);
 void moveNaipeTemp();
 void moveTempNaipe();
 int verificaGanhou();
+void limparPilhaMonteVirado();
 int verificaPodeEfeturarjogada();
 void moveNaipeMesa();
-char menuPrincipal();
+char menuPrincipal(TpPilha pilhaMonte, TpPilha pilhaMonteVirado);
 void moveMesaMesa();
 void exibirInterfaceInicial(TpPilha p1, TpPilha p2, TpPilha p3, TpPilha p4, TpPilha p5, TpPilha p6, TpPilha p7);
 void popularPilhasColunas(TpPilha &monte, TpPilha &p1, TpPilha &p2, TpPilha &p3, TpPilha &p4, TpPilha &p5, TpPilha &p6, TpPilha &p7);
+
 void inicializarMesa(
     TpPilha &pilhaMonte,
     TpPilha &pilhaMonteVirado,
-    TpPilha &pilhaFixo1,
-    TpPilha &pilhaFixo2,
-    TpPilha &pilhaFixo3,
-    TpPilha &pilhaFixo4,
+    TpPilha &pilhaOuros,
+    TpPilha &pilhaEspadas,
+    TpPilha &pilhaCopas,
+    TpPilha &pilhaPaus,
     TpPilha &pilhaColuna1,
     TpPilha &pilhaColuna2,
     TpPilha &pilhaColuna3,
@@ -115,22 +118,6 @@ void embaralhar(tpCarta *baralho, int n)
 
 void popularPilhasColunas(TpPilha &monte, TpPilha &p1, TpPilha &p2, TpPilha &p3, TpPilha &p4, TpPilha &p5, TpPilha &p6, TpPilha &p7)
 {
-    // TpPilha aux[7] = {p1,
-    //                   p2,
-    //                   p3,
-    //                   p4,
-    //                   p5,
-    //                   p6,
-    //                   p7};
-    // for (int i = 1; i <= 7; i++)
-    // {
-    //     printf("i %d", i);
-    //     for (int j = 1; j <= i; j++)
-    //     {
-    //         printf(" j %d\n", i);
-    //         Push(aux[i - 1], Pop(monte));
-    //     }
-    // }
     Push(p1, Pop(monte));
     Push(p2, Pop(monte));
     Push(p2, Pop(monte));
@@ -193,6 +180,17 @@ void exibirInterfaceInicial(TpPilha p1, TpPilha p2, TpPilha p3, TpPilha p4, TpPi
             {
                 textcolor(0);
                 printf("%c", 5);
+            }
+            // 24 cartas
+            else if (j == 6 && i == 8)
+            {
+                textcolor(0);
+                printf("2");
+            }
+            else if (j == 7 && i == 8)
+            {
+                textcolor(0);
+                printf("4");
             }
             else
             {
@@ -260,17 +258,25 @@ void exibirInterfaceInicial(TpPilha p1, TpPilha p2, TpPilha p3, TpPilha p4, TpPi
     // gotoxy(2, 24);
 }
 
-char menuPrincipal()
+char menuPrincipal(TpPilha pilhaMonte, TpPilha pilhaMonteVirado)
 {
-    gotoxy(1, 16);
-    printf("[A] \n");
-    printf("[B] \n");
-    printf("[C] \n");
-    printf("[D] \n");
-    printf("[E] \n");
-    printf("[F] \n");
-    printf("[G] \n");
-    printf("[H] \n");
+    // MOVER MESA -> NAIPE
+    // MOVER NAIPE -> MESA
+    // MOVER MESA -> MESA
+    // PEGAR CARTA
+
+    gotoxy(1, 18);
+    if (Vazia(pilhaMonte.TOPO) && !Vazia(pilhaMonteVirado.TOPO))
+    {
+        printf("[A] Embaralhar cartas sem monte no baralho\n");
+    }
+    else
+    {
+        printf("[A] Pegar nova carta\n");
+    }
+    printf("[B] Mover da Mesa para Naipe\n");
+    printf("[C] Mover monte Naipe para Mesa\n");
+    printf("[D] Mover entre montes da Mesa\n");
     printf("[ESC] Sair\n");
     printf("Opcao desejada: ");
     return toupper(getche());
@@ -279,17 +285,18 @@ char menuPrincipal()
 void inicializarMesa(
     TpPilha &pilhaMonte,
     TpPilha &pilhaMonteVirado,
-    TpPilha &pilhaFixo1,
-    TpPilha &pilhaFixo2,
-    TpPilha &pilhaFixo3,
-    TpPilha &pilhaFixo4,
+    TpPilha &pilhaOuros,
+    TpPilha &pilhaEspadas,
+    TpPilha &pilhaCopas,
+    TpPilha &pilhaPaus,
     TpPilha &pilhaColuna1,
     TpPilha &pilhaColuna2,
     TpPilha &pilhaColuna3,
     TpPilha &pilhaColuna4,
     TpPilha &pilhaColuna5,
     TpPilha &pilhaColuna6,
-    TpPilha &pilhaColuna7)
+    TpPilha &pilhaColuna7,
+    int &qteCartasPilhaMonte)
 {
     // fazer sistema de pontuação?
     // pode desfazer jogada?
@@ -298,21 +305,15 @@ void inicializarMesa(
     // POPULAR PILHAS MONTE
     popularPilhasColunas(pilhaMonte, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7);
     exibirInterfaceInicial(pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7);
+    qteCartasPilhaMonte = 24;
 }
 
-void moveMesaFixo()
-{
-}
-
-void moveTempMesa()
-{
-}
+// MOVER MESA -> NAIPE
+// MOVER NAIPE -> MESA
+// MOVER MESA -> MESA
+// PEGAR CARTA
 
 void moveMesaNaipe()
-{
-}
-
-void moveTempNaipe()
 {
 }
 
@@ -324,17 +325,83 @@ void moveMesaMesa()
 {
 }
 
+void limparPilhaMonteVirado()
+{
+    int colI = 2, linI = 10, linF = 14, colF = 8;
+    textcolor(15);
+    textbackground(0);
+    for (int i = linI; i < linF; i++)
+    {
+        for (int j = 0; j < colF; j++)
+        {
+            gotoxy(j, i);
+            printf(" ");
+        }
+    }
+}
+
+void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, int &qteCartasPilhaMonte)
+{
+    // verificar se pilhaMonte está vazia e se pilhaMonteVirado tbm
+    // gotoxy();
+    if (Vazia(pilhaMonte.TOPO) && Vazia(pilhaMonteVirado.TOPO))
+    {
+        gotoxy(1, 16);
+        printf("Não há mais cartas para pegar!");
+    }
+    else if (Vazia(pilhaMonte.TOPO) && !Vazia(pilhaMonteVirado.TOPO))
+    {
+        // jogar as cartas do monte virado pro monte normal, reembaralhar e puxar uma carta
+    }
+    else
+    {
+        // PUXAR UMA CARTA
+
+        // tirar carta do pilhaMonte
+        // colocar no pilhaMonteViredo
+        Push(pilhaMonteVirado, Pop(pilhaMonte));
+
+        qteCartasPilhaMonte--;
+        /* else if (j == 6 && i == 8)
+            {
+                textcolor(0);
+                printf("2");
+            }
+            else if (j == 7 && i == 8)
+            {
+                textcolor(0);
+                printf("4");
+            }*/
+        int aux = qteCartasPilhaMonte % 10;
+        textcolor(0);
+        textbackground(15);
+        gotoxy(6, 8);
+        printf("%d", qteCartasPilhaMonte / 10);
+        gotoxy(7, 8);
+        printf("%d", aux);
+        gotoxy(70, 24);
+        textcolor(15);
+        textbackground(0);
+
+        // dar clear visual na pilhaMonteVirado
+        limparPilhaMonteVirado();
+        // exibir pilhaMonteVirado
+        ExbibirTemporarioSoVerPilha(pilhaMonteVirado, 2, 10, 2);
+    }
+}
+
 void executar()
 {
     // fazer sistema de pontuação?
     // pode desfazer jogada?
-    TpPilha pilhaMonte, pilhaMonteVirado, pilhaFixo1, pilhaFixo2, pilhaFixo3, pilhaFixo4, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7;
+    int qteCartasPilhaMonte;
+    TpPilha pilhaMonte, pilhaMonteVirado, pilhaOuros, pilhaEspadas, pilhaCopas, pilhaPaus, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7;
     Inicializar(pilhaMonte);
     Inicializar(pilhaMonteVirado);
-    Inicializar(pilhaFixo1);
-    Inicializar(pilhaFixo2);
-    Inicializar(pilhaFixo3);
-    Inicializar(pilhaFixo4);
+    Inicializar(pilhaOuros);
+    Inicializar(pilhaEspadas);
+    Inicializar(pilhaCopas);
+    Inicializar(pilhaPaus);
     Inicializar(pilhaColuna1);
     Inicializar(pilhaColuna2);
     Inicializar(pilhaColuna3);
@@ -342,38 +409,24 @@ void executar()
     Inicializar(pilhaColuna5);
     Inicializar(pilhaColuna6);
     Inicializar(pilhaColuna7);
-    inicializarMesa(pilhaMonte, pilhaMonteVirado, pilhaFixo1, pilhaFixo2, pilhaFixo3, pilhaFixo4, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7);
+    inicializarMesa(pilhaMonte, pilhaMonteVirado, pilhaOuros, pilhaEspadas, pilhaCopas, pilhaPaus, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7, qteCartasPilhaMonte);
     char op;
     do
     {
-        op = menuPrincipal();
+        op = menuPrincipal(pilhaMonte, pilhaMonteVirado);
         switch (op)
         {
         case 'A':
-            printf("\nEntrou na op A\nDigite algo pra voltar...");
-            getch();
-            limpaMenu();
+            pegarCartaOuResetarBaralho(pilhaMonte, pilhaMonteVirado, qteCartasPilhaMonte);
             break;
         case 'B':
-            /* code */
+            moveMesaNaipe();
             break;
         case 'C':
-            /* code */
+            moveNaipeMesa();
             break;
         case 'D':
-            /* code */
-            break;
-        case 'E':
-            /* code */
-            break;
-        case 'F':
-            /* code */
-            break;
-        case 'G':
-            /* code */
-            break;
-        case 'H':
-            /* code */
+            moveMesaMesa();
             break;
         default:
             break;

@@ -45,10 +45,15 @@ tpCarta ElementoTopo(TpPilha P)
 	return P.PILHA[P.TOPO];
 }
 
-void ExbibirTemporarioSoVerPilha(TpPilha P, int colI, int linI, int mostrarSomenteTopo)
+void ExbibirTemporarioSoVerPilha(TpPilha P, int colI, int linI, int tipoDePilha)
 {
+	// tipo 1 = pilhaColuna
+	// tipo 2 = pilhaMonteVirado
+	// tipo 3 = pilhaNaipe
+	// exibir pilhaMonteVirado max 5
+
 	tpCarta aux;
-	if (mostrarSomenteTopo)
+	if (tipoDePilha == 3)
 	{
 		aux = Pop(P);
 		int cor, auxNaipe = aux.naipe;
@@ -84,7 +89,7 @@ void ExbibirTemporarioSoVerPilha(TpPilha P, int colI, int linI, int mostrarSomen
 		textbackground(0);
 		textcolor(15);
 	}
-	else
+	else if (tipoDePilha == 1)
 	{
 		int qteCartas = P.TOPO;
 		int linhaAux = qteCartas + linI;
@@ -125,6 +130,10 @@ void ExbibirTemporarioSoVerPilha(TpPilha P, int colI, int linI, int mostrarSomen
 			textbackground(0);
 			textcolor(15);
 		}
+	}
+	else
+	{
+		// IMPLEMENTAR PRINT pilhaMonteVirado
 	}
 }
 
