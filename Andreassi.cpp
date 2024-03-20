@@ -36,6 +36,7 @@ char menuPrincipal(TpPilha pilhaMonte, TpPilha pilhaMonteVirado);
 void moveMesaMesa();
 void exibirInterfaceInicial(TpPilha p1, TpPilha p2, TpPilha p3, TpPilha p4, TpPilha p5, TpPilha p6, TpPilha p7);
 void popularPilhasColunas(TpPilha &monte, TpPilha &p1, TpPilha &p2, TpPilha &p3, TpPilha &p4, TpPilha &p5, TpPilha &p6, TpPilha &p7);
+
 void inicializarMesa(
     TpPilha &pilhaMonte,
     TpPilha &pilhaMonteVirado,
@@ -81,6 +82,8 @@ void criaBaralho(TpPilha &p)
     char figuras[13][3] = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
     int naipe[4] = {1, 2, 3, 4};
     int cont = 0;
+    //CUIDADO COM MAGIC NUMBERS 13 E 4 SIGNIFICA O QE PRA QUEM LE DE FORA??
+
     for (int i = 0; i < 13; i++)
     {
         for (int j = 0; j < 4; j++)
@@ -280,8 +283,8 @@ char menuPrincipal(TpPilha pilhaMonte, TpPilha pilhaMonteVirado)
     printf("[B] Mover da Mesa para Naipe\n");
     printf("[C] Mover monte Naipe para Mesa\n");
     printf("[D] Mover entre montes da Mesa\n");
-    printf("[E] Mover carta do Baralho para Mesa");
-    printf("[E] Mover carta do Baralho para monte Naipe");
+    printf("[E] Mover carta do Baralho para Mesa\n");
+    printf("[F] Mover carta do Baralho para monte Naipe\n");
     printf("[ESC] Sair\n");
     printf("Opcao desejada: ");
     return toupper(getche());
@@ -320,6 +323,7 @@ void inicializarMesa(
 
 void moveMesaNaipe()
 {
+
 }
 
 void moveNaipeMesa()
@@ -434,6 +438,9 @@ void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, 
         // exibir pilhaMonteVirado
         ExbibirTemporarioSoVerPilha(pilhaMonteVirado, 2, 10, 2);
     }
+}
+
+void pontuacao () {
 }
 
 void executar()
