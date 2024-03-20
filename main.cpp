@@ -12,31 +12,33 @@
 // #include "TadPilhaM1.h"
 // #include "TADPilhaM2.h"
 
+int movimentos = 0;
+
 // declarao de funcoes
 // auxiliares
-void telaInicial();
-void executar();
+void limparPilhaMonteVirado();
+int buscaFigura(char fig[13][3], char figBuscada[3]);
+void popularPilhasColunas(TpPilha &monte, TpPilha &p1, TpPilha &p2, TpPilha &p3, TpPilha &p4, TpPilha &p5, TpPilha &p6, TpPilha &p7);
+
 // mover cartas
-void destribuirMesa();
+void destribuirMesa(); 
 void moveMesaTemp();
 void moveTempMesa();
-int quantasCartasTemNaPilha(TpPilha p);
 void moveMesaNaipe();
 void moveMonteViradoParaNaipe();
 void moveMonteViradoParaMesa();
-void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, int &qteCartasPilhaMonte);
-void moveNaipeTemp();
-int buscaFigura(char fig[13][3], char figBuscada[3]);
-void moveTempNaipe();
-int verificaGanhou();
-void limparPilhaMonteVirado();
-int verificaPodeEfeturarjogadaMoveNaipeMesa(TpPilha monteNaipe, TpPilha monteMesa);
-void moveNaipeMesa();
-char menuPrincipal(TpPilha pilhaMonte, TpPilha pilhaMonteVirado);
-void moveMesaMesa();
-void exibirInterfaceInicial(TpPilha p1, TpPilha p2, TpPilha p3, TpPilha p4, TpPilha p5, TpPilha p6, TpPilha p7);
-void popularPilhasColunas(TpPilha &monte, TpPilha &p1, TpPilha &p2, TpPilha &p3, TpPilha &p4, TpPilha &p5, TpPilha &p6, TpPilha &p7);
 
+//verificacoes 
+int quantasCartasTemNaPilha(TpPilha p);
+void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, int &qteCartasPilhaMonte);
+int verificaPodeEfeturarjogadaMoveNaipeMesa(TpPilha monteNaipe, TpPilha monteMesa);
+int verificaGanhou(TpPilha pilhaOuros, TpPilha pilhaEspadas, TpPilha pilhaCopas, TpPilha pilhaPaus);
+
+//exibir interface e menu
+void telaInicial();
+void executar();
+char menuPrincipal(TpPilha pilhaMonte, TpPilha pilhaMonteVirado);
+void exibirInterfaceInicial(TpPilha p1, TpPilha p2, TpPilha p3, TpPilha p4, TpPilha p5, TpPilha p6, TpPilha p7);
 void inicializarMesa(
     TpPilha &pilhaMonte,
     TpPilha &pilhaMonteVirado,
@@ -51,12 +53,15 @@ void inicializarMesa(
     TpPilha &pilhaColuna5,
     TpPilha &pilhaColuna6,
     TpPilha &pilhaColuna7);
+
 void criaBaralho(TpPilha &p);
 void embaralhar(tpCarta *baralho, int n);
 void limpaMenu();
+void contagemDeMovimentos();
 
-void telaInicial()
-{
+//fim das declaracoes de funcoes
+
+void telaInicial() {
     system("cls");
 
     // textcolor(WHITE); // Muda a cor do texto para branca
@@ -270,7 +275,6 @@ char menuPrincipal(TpPilha pilhaMonte, TpPilha pilhaMonteVirado)
     // MOVER NAIPE -> MESA
     // MOVER MESA -> MESA
     // PEGAR CARTA
-
     gotoxy(1, 18);
     if (Vazia(pilhaMonte.TOPO) && !Vazia(pilhaMonteVirado.TOPO))
     {
@@ -440,13 +444,10 @@ void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, 
     }
 }
 
-void pontuacao () {
-}
-
 void executar()
 {
     // fazer sistema de pontuação?
-    // pode desfazer jogada?
+    // pode desfazer jogada? ideia legal
     int qteCartasPilhaMonte;
     TpPilha pilhaMonte, pilhaMonteVirado, pilhaOuros, pilhaEspadas, pilhaCopas, pilhaPaus, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7;
     Inicializar(pilhaMonte);
@@ -475,23 +476,28 @@ void executar()
             break;
         case 'B':
             moveMesaNaipe();
+            contagemDeMovimentos();
             break;
         case 'C':
             moveNaipeMesa();
+            contagemDeMovimentos();
             break;
         case 'D':
             moveMesaMesa();
+            contagemDeMovimentos();
             break;
         case 'E':
             moveMonteViradoParaMesa();
+            contagemDeMovimentos();
             break;
         case 'F':
             moveMonteViradoParaNaipe();
+            contagemDeMovimentos();
             break;
         default:
             break;
         }
-    } while (op != 27 /*&& verificaGanhou()*/);
+    } while (op != 27 && verificaGanhou(pilhaOuros,pilhaEspadas,pilhaCopas,pilhaPaus) != 1);
 }
 
 void limpaMenu()
@@ -507,9 +513,15 @@ void limpaMenu()
     }
 }
 
-int verificaGanhou()
+int verificaGanhou(TpPilha pilhaOuros, TpPilha pilhaEspadas, TpPilha pilhaCopas, TpPilha pilhaPaus)
 {
     // verificar se os 4 montes dos naipes estão cheios
+    if (Cheia(pilhaOuros.TOPO) && Cheia(pilhaEspadas.TOPO) && Cheia(pilhaCopas.TOPO) && Cheia(pilhaPaus.TOPO))
+    {
+        return 1;
+    }
+    return -1;
+    
 }
 
 int buscaFigura(char fig[13][3], char figBuscada[3])
@@ -537,8 +549,26 @@ int verificaPodeEfeturarjogadaMoveNaipeMesa(TpPilha monteNaipe, TpPilha monteMes
     return 1;
 }
 
+void contagemDeMovimentos() {
+    movimentos++;
+    gotoxy(1, 20);
+    printf("Movimentos: %d", movimentos);
+}
+
 int main()
 {
     executar();
     return 0;
 }
+
+//a fazeres para agora
+
+// void moveMesaNaipe()
+
+// void moveNaipeMesa()
+
+// void moveMesaMesa()
+
+// void moveMonteViradoParaMesa()
+
+// void moveMonteViradoParaNaipe()
