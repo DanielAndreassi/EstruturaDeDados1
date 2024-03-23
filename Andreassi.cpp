@@ -24,9 +24,9 @@ void popularPilhasColunas(TpPilha &monte, TpPilha &p1, TpPilha &p2, TpPilha &p3,
 void destribuirMesa();
 void moveMesaTemp();
 void moveNaipeMesa(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCopas, TpPilha &pilhaPaus, TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaColuna3, TpPilha &pilhaColuna4, TpPilha &pilhaColuna5, TpPilha &pilhaColuna6, TpPilha &pilhaColuna7);
+void moveMonteViradoParaNaipe(TpPilha monteVirado,TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCopas, TpPilha &pilhaPaus);
 void moveTempMesa();
 void moveMesaNaipe();
-void moveMonteViradoParaNaipe();
 void moveMonteViradoParaMesa();
 
 // verificacoes
@@ -34,6 +34,7 @@ int quantasCartasTemNaPilha(TpPilha p);
 void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, int &qteCartasPilhaMonte);
 int verificaPodeEfeturarjogadaMoveNaipeMesa(TpPilha monteNaipe, TpPilha monteMesa);
 int verificaGanhou(TpPilha pilhaOuros, TpPilha pilhaEspadas, TpPilha pilhaCopas, TpPilha pilhaPaus);
+int verificarMoverMonteParaNaipe(TpPilha monteVirado,TpPilha pilhaOuro,TpPilha pilhaEspadas,TpPilha pilhaCopas,TpPilha pilhaPaus,int monte);
 
 // exibir interface e menu
 char submenuMontesNaipe();
@@ -523,14 +524,71 @@ void moveNaipeMesa(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
 
 void moveMesaMesa()
 {
+
 }
 
 void moveMonteViradoParaMesa()
 {
 }
 
-void moveMonteViradoParaNaipe()
-{
+int verificarMoverMonteParaNaipe(TpPilha monteVirado,TpPilha pilhaOuro,TpPilha pilhaEspadas,TpPilha pilhaCopas,TpPilha pilhaPaus,int monte) {
+
+    char figuras[13][3] = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+    tpCarta cartaTopoMonte = Pop(monteVirado);
+
+    if(monte == 1) {
+        tpCarta aux = Pop(pilhaOuro);
+        if (buscaFigura(figuras,cartaTopoMonte.figura) > buscaFigura(figuras,aux.figura) && cartaTopoMonte.preto == aux.preto) {
+            return 1;
+        }
+    }
+    if (monte == 2) {
+        tpCarta aux = Pop(pilhaEspadas);
+        if (buscaFigura(figuras,cartaTopoMonte.figura) > buscaFigura(figuras,aux.figura) && cartaTopoMonte.preto == aux.preto) {
+            return 1;
+        }
+    }
+    if (monte == 3) {
+        tpCarta aux = Pop(pilhaCopas);
+        if (buscaFigura(figuras,cartaTopoMonte.figura) > buscaFigura(figuras,aux.figura) && cartaTopoMonte.preto == aux.preto) {
+            return 1;
+        }
+    }
+    if (monte == 4) {
+        
+        tpCarta aux = Pop(pilhaPaus);
+        if (buscaFigura(figuras,cartaTopoMonte.figura) > buscaFigura(figuras,aux.figura) && cartaTopoMonte.preto == aux.preto) {
+            return 1;
+        }
+        
+    }
+    return -1;
+}
+
+void moveMonteViradoParaNaipe(TpPilha monteVirado,TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCopas, TpPilha &pilhaPaus) {
+    printf("\nQual monte de naipes desejar mover essa carta (1-4)");
+    
+    int monte = scanf("%d",&monte);
+    
+    while(monte > 4 && monte<1) {
+        printf("O numero do monte digitado nao existe");
+        printf("Digite novamente: (1-4)");
+        scanf("%d",&monte);
+    }
+    if(!Vazia(monteVirado.TOPO)) {
+        if (verificarMoverMonteParaNaipe(monteVirado,pilhaOuros,pilhaEspadas,pilhaCopas,pilhaPaus,monte) != -1) {
+            Push(pilhaPaus,Pop(monteVirado));
+        }
+        else {
+            printf("A carta a ser movida deve ser do mesmo naipe e a proxima da sequencia!!");
+        }
+    }
+    else {
+        printf("Nao a nada no monte virado!!\n");
+        gotoxy(1,18);
+        system("pause");
+        limpaMenu();
+    }
 }
 
 void limparPilhaMonteVirado()
@@ -678,7 +736,7 @@ void executar()
             // contagemDeMovimentos();
             break;
         case 'F':
-            moveMonteViradoParaNaipe();
+            moveMonteViradoParaNaipe(pilhaMonteVirado,pilhaOuros,pilhaEspadas,pilhaCopas,pilhaPaus);
             // contagemDeMovimentos();
             break;
         default:
