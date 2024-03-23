@@ -410,7 +410,10 @@ char menuPrincipal(TpPilha pilhaMonte, TpPilha pilhaMonteVirado)
     printf("[B] Mover da Mesa para Naipe\n");
     printf("[C] Mover monte Naipe para Mesa\n");
     printf("[D] Mover entre montes da Mesa\n");
-    printf("[E] Mover carta do Baralho para Mesa\n");
+    if (!Vazia(pilhaMonteVirado.TOPO))
+    {
+        printf("[E] Mover carta do Baralho para Mesa\n");
+    }
     printf("[F] Mover carta do Baralho para monte Naipe\n");
     printf("[ESC] Sair\n");
     printf("Opcao desejada: ");
@@ -3410,8 +3413,21 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
     }
 }
 
-void moveMonteViradoParaMesa()
+void moveMonteViradoParaMesa(TpPilha &monteVirado, &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaColuna3, TpPilha &pilhaColuna4, TpPilha &pilhaColuna5, TpPilha &pilhaColuna6, TpPilha &pilhaColuna7)
 {
+    limpaMenu();
+    gotoxy(1, 18);
+    printf("Qual monte deseja enviar a carta? ");
+    char op = submenuMontesColunas();
+    switch (op)
+    {
+    case 'A':
+        if ()
+            break;
+
+    default:
+        break;
+    }
 }
 
 void moveMonteViradoParaNaipe()
@@ -3557,9 +3573,13 @@ void executar()
             // contagemDeMovimentos();
             break;
         case 'E':
-            moveMonteViradoParaMesa();
-            // contagemDeMovimentos();
-            break;
+            if (!Vazia(pilhaMonteVirado.TOPO))
+            {
+                moveMonteViradoParaMesa();
+            }
+            limpaMenu()
+                // contagemDeMovimentos();
+                break;
         case 'F':
             moveMonteViradoParaNaipe(pilhaMonteVirado, pilhaOuros, pilhaEspadas, pilhaCopas, pilhaPaus);
             limpaMenu();
