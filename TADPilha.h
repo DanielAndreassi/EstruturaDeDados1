@@ -6,7 +6,7 @@ struct tpCarta
 	// 2 - ESPADA
 	// 3 - COPAS
 	// 4 - PAUS
-	int naipe, preto;
+	int naipe, preto, viradaPraCima;
 	char figura[3];
 };
 
@@ -96,39 +96,54 @@ void ExbibirTemporarioSoVerPilha(TpPilha P, int colI, int linI, int tipoDePilha)
 		while (!Vazia(P.TOPO))
 		{
 			aux = Pop(P);
-			int cor, auxNaipe = aux.naipe;
-			switch (auxNaipe)
+			if (aux.viradaPraCima)
 			{
-			case 1:
-				// cor vermelho
-				cor = 4;
-				auxNaipe = 4;
-				break;
-			case 2:
-				// cor preto
-				cor = 0;
-				auxNaipe = 6;
-				break;
-			case 3:
-				cor = 4;
-				auxNaipe = 3;
-				break;
-			case 4:
-				// cor preto
-				cor = 0;
-				auxNaipe = 5;
-				break;
+				int cor, auxNaipe = aux.naipe;
+				switch (auxNaipe)
+				{
+				case 1:
+					// cor vermelho
+					cor = 4;
+					auxNaipe = 4;
+					break;
+				case 2:
+					// cor preto
+					cor = 0;
+					auxNaipe = 6;
+					break;
+				case 3:
+					cor = 4;
+					auxNaipe = 3;
+					break;
+				case 4:
+					// cor preto
+					cor = 0;
+					auxNaipe = 5;
+					break;
+				}
+				// textcolor(cor);
+				// textbackground(15);
+				gotoxy(colI, linhaAux);
+				printf("[%s]", aux.figura);
+				textcolor(cor);
+				textbackground(15);
+				printf("[%c]", auxNaipe);
+				linhaAux--;
+				textbackground(0);
+				textcolor(15);
 			}
-			// textcolor(cor);
-			// textbackground(15);
-			gotoxy(colI, linhaAux);
-			printf("[%s]", aux.figura);
-			textcolor(cor);
-			textbackground(15);
-			printf("[%c]", auxNaipe);
-			linhaAux--;
-			textbackground(0);
-			textcolor(15);
+			else
+			{
+				gotoxy(colI, linhaAux);
+				// cor de fundo vermelho
+				// escrita branca
+				textbackground(4);
+				textcolor(15);
+				printf("%c----%c", 218, 191);
+				linhaAux--;
+				textbackground(0);
+				textcolor(15);
+			}
 		}
 	}
 	else
