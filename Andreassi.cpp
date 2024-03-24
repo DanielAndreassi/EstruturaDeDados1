@@ -3162,45 +3162,52 @@ int indexPrimeiraCartaViradaPraCima(TpPilha p)
 
 void virarUltimaCarta(TpPilha &p, int numPilha)
 {
+    int colI;
+    switch (numPilha)
+    {
+    case 1:
+        colI = 14;
+        break;
+    case 2:
+        colI = 23;
+        break;
+    case 3:
+        colI = 32;
+        break;
+    case 4:
+        colI = 41;
+        break;
+    case 5:
+        colI = 50;
+        break;
+    case 6:
+        colI = 59;
+        break;
+    case 7:
+        colI = 68;
+        break;
+    }
     if (!Vazia(p.TOPO))
     {
         tpCarta aux = Pop(p);
         if (aux.viradaPraCima == 1)
         {
             Push(p, aux);
+            limparPilhaColuna(numPilha);
+            ExbibirTemporarioSoVerPilha(p, colI, 3, 1);
         }
         else
         {
             aux.viradaPraCima = 1;
             Push(p, aux);
-            int colI;
-            switch (numPilha)
-            {
-            case 1:
-                colI = 14;
-                break;
-            case 2:
-                colI = 23;
-                break;
-            case 3:
-                colI = 32;
-                break;
-            case 4:
-                colI = 41;
-                break;
-            case 5:
-                colI = 50;
-                break;
-            case 6:
-                colI = 59;
-                break;
-            case 7:
-                colI = 68;
-                break;
-            }
             limparPilhaColuna(numPilha);
             ExbibirTemporarioSoVerPilha(p, colI, 3, 1);
         }
+    }
+    else
+    {
+        limparPilhaColuna(numPilha);
+        ExbibirTemporarioSoVerPilha(p, colI, 3, 1);
     }
 }
 
@@ -4455,7 +4462,7 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         limparPilhaColuna(1);
                         limparPilhaColuna(6);
                         ExbibirTemporarioSoVerPilha(pilhaColuna1, 14, 3, 1);
-                        ExbibirTemporarioSoVerPilha(pilhaColuna6, 58, 3, 1);
+                        ExbibirTemporarioSoVerPilha(pilhaColuna6, 59, 3, 1);
                         limpaMenu();
                         contagemDeMovimentos();
                     }
@@ -4484,7 +4491,7 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         }
                         limparPilhaColuna(6);
                         limparPilhaColuna(2);
-                        ExbibirTemporarioSoVerPilha(pilhaColuna6, 58, 3, 1);
+                        ExbibirTemporarioSoVerPilha(pilhaColuna6, 59, 3, 1);
                         ExbibirTemporarioSoVerPilha(pilhaColuna2, 23, 3, 1);
                         limpaMenu();
                         contagemDeMovimentos();
@@ -4515,7 +4522,7 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         limparPilhaColuna(3);
                         limparPilhaColuna(6);
                         ExbibirTemporarioSoVerPilha(pilhaColuna3, 32, 3, 1);
-                        ExbibirTemporarioSoVerPilha(pilhaColuna6, 58, 3, 1);
+                        ExbibirTemporarioSoVerPilha(pilhaColuna6, 59, 3, 1);
                         limpaMenu();
                         contagemDeMovimentos();
                     }
@@ -4544,7 +4551,7 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         }
                         limparPilhaColuna(6);
                         limparPilhaColuna(4);
-                        ExbibirTemporarioSoVerPilha(pilhaColuna6, 58, 3, 1);
+                        ExbibirTemporarioSoVerPilha(pilhaColuna6, 59, 3, 1);
                         ExbibirTemporarioSoVerPilha(pilhaColuna4, 41, 3, 1);
                         limpaMenu();
                         contagemDeMovimentos();
@@ -5181,7 +5188,7 @@ void executar()
 void limpaMenu()
 {
     // printar espacos pra limpar menu
-    for (int i = 16; i <= 30; i++)
+    for (int i = 16; i <= 32; i++)
     {
         for (int j = 1; j < 80; j++)
         {
@@ -5246,9 +5253,10 @@ int verificaPodeEfeturarjogadaMoveNaipeMesa(TpPilha monteNaipe, TpPilha monteMes
     else
     {
         tpCarta cartaTopoMonteMesa = Pop(monteMesa);
-        if (posBuscaCartaTopoMonteNaipe + 1 == buscaFigura(cartaTopoMonteMesa.figura) ||
+        if (posBuscaCartaTopoMonteNaipe + 1 != buscaFigura(cartaTopoMonteMesa.figura) ||
             cartaTopoMonteNaipe.preto == cartaTopoMonteMesa.preto)
         {
+            getch();
             return 0;
         }
         return 1;
