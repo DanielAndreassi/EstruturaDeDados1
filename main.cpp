@@ -25,7 +25,7 @@ void destribuirMesa();
 void moveMesaTemp();
 void moveNaipeMesa(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCopas, TpPilha &pilhaPaus, TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaColuna3, TpPilha &pilhaColuna4, TpPilha &pilhaColuna5, TpPilha &pilhaColuna6, TpPilha &pilhaColuna7);
 void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaColuna3, TpPilha &pilhaColuna4, TpPilha &pilhaColuna5, TpPilha &pilhaColuna6, TpPilha &pilhaColuna7);
-void moveMesaNaipe();
+void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCopas, TpPilha &pilhaPaus, TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaColuna3, TpPilha &pilhaColuna4, TpPilha &pilhaColuna5, TpPilha &pilhaColuna6, TpPilha &pilhaColuna7);
 void moveMonteViradoParaNaipe(TpPilha monteVirado, TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCopas, TpPilha &pilhaPaus);
 void moveMonteViradoParaNaipe();
 void moveMonteViradoParaMesa(TpPilha &pilhaMonteVirado, TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaColuna3, TpPilha &pilhaColuna4, TpPilha &pilhaColuna5, TpPilha &pilhaColuna6, TpPilha &pilhaColuna7);
@@ -40,7 +40,10 @@ int verificarMoverMonteParaNaipe(TpPilha monteVirado, TpPilha pilhaOuro, TpPilha
 
 // exibir interface e menu
 char submenuMontesNaipe();
+void limparPilhaNaipe(int numPilha);
+void virarUltimaCarta(TpPilha &p, int numPilha);
 void telaInicial();
+char submenuMontesColunas(int excluirQual = 0);
 void executar();
 char menuPrincipal(TpPilha pilhaMonte, TpPilha pilhaMonteVirado);
 void exibirInterfaceInicial(TpPilha p1, TpPilha p2, TpPilha p3, TpPilha p4, TpPilha p5, TpPilha p6, TpPilha p7);
@@ -448,8 +451,1271 @@ void inicializarMesa(
 // MOVER MESA -> MESA
 // PEGAR CARTA
 
-void moveMesaNaipe()
+void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCopas, TpPilha &pilhaPaus, TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaColuna3, TpPilha &pilhaColuna4, TpPilha &pilhaColuna5, TpPilha &pilhaColuna6, TpPilha &pilhaColuna7)
 {
+    limpaMenu();
+    gotoxy(1, 18);
+    printf("De qual monte: ");
+    char op = submenuMontesColunas();
+    switch (op)
+    {
+    case 'A':
+        if (Vazia(pilhaColuna1.TOPO))
+        {
+            limpaMenu();
+            gotoxy(1, 18);
+            printf("Jogada invalida!\nDigite algo para voltar...");
+            getch();
+        }
+        else
+        {
+            tpCarta elTopo = ElementoTopo(pilhaColuna1);
+            switch (elTopo.naipe)
+            {
+            case 1:
+                if (Vazia(pilhaOuros.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna1).figura) == 0)
+                    {
+                        Push(pilhaOuros, Pop(pilhaColuna1));
+                        virarUltimaCarta(pilhaColuna1, 1);
+                        // virar ultima carta da pilhaColuna1
+                        limparPilhaNaipe(1);
+                        ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        // redesenhar pilhaOuros
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna1).figura) == buscaFigura(ElementoTopo(pilhaOuros).figura) + 1)
+                    {
+                        Push(pilhaOuros, Pop(pilhaColuna1));
+                        virarUltimaCarta(pilhaColuna1, 1);
+                        // virar ultima carta da pilhaColuna1
+                        limparPilhaNaipe(1);
+                        ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 2:
+                if (Vazia(pilhaEspadas.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna1).figura) == 0)
+                    {
+                        Push(pilhaEspadas, Pop(pilhaColuna1));
+                        virarUltimaCarta(pilhaColuna1, 1);
+                        // virar ultima carta da pilhaColuna1
+                        limparPilhaNaipe(2);
+                        ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        // redesenhar pilhaEspadas
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna1).figura) == buscaFigura(ElementoTopo(pilhaEspadas).figura) + 1)
+                    {
+                        Push(pilhaEspadas, Pop(pilhaColuna1));
+                        virarUltimaCarta(pilhaColuna1, 1);
+                        // virar ultima carta da pilhaColuna1
+                        limparPilhaNaipe(2);
+                        ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 3:
+                if (Vazia(pilhaCopas.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna1).figura) == 0)
+                    {
+                        Push(pilhaCopas, Pop(pilhaColuna1));
+                        virarUltimaCarta(pilhaColuna1, 1);
+                        // virar ultima carta da pilhaColuna1
+                        limparPilhaNaipe(3);
+                        ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        // redesenhar pilhaCopas
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna1).figura) == buscaFigura(ElementoTopo(pilhaCopas).figura) + 1)
+                    {
+                        Push(pilhaCopas, Pop(pilhaColuna1));
+                        virarUltimaCarta(pilhaColuna1, 1);
+                        // virar ultima carta da pilhaColuna1
+                        limparPilhaNaipe(3);
+                        ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 4:
+                if (Vazia(pilhaPaus.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna1).figura) == 0)
+                    {
+                        Push(pilhaPaus, Pop(pilhaColuna1));
+                        virarUltimaCarta(pilhaColuna1, 1);
+                        // virar ultima carta da pilhaColuna1
+                        limparPilhaNaipe(4);
+                        ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        // redesenhar pilhaPaus
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna1).figura) == buscaFigura(ElementoTopo(pilhaPaus).figura) + 1)
+                    {
+                        Push(pilhaPaus, Pop(pilhaColuna1));
+                        virarUltimaCarta(pilhaColuna1, 1);
+                        // virar ultima carta da pilhaColuna1
+                        limparPilhaNaipe(4);
+                        ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+
+            default:
+                break;
+            }
+        }
+        break;
+    case 'B':
+        if (Vazia(pilhaColuna2.TOPO))
+        {
+            limpaMenu();
+            gotoxy(1, 18);
+            printf("Jogada invalida!\nDigite algo para voltar...");
+            getch();
+        }
+        else
+        {
+            tpCarta elTopo = ElementoTopo(pilhaColuna2);
+            switch (elTopo.naipe)
+            {
+            case 1:
+                if (Vazia(pilhaOuros.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna2).figura) == 0)
+                    {
+                        Push(pilhaOuros, Pop(pilhaColuna2));
+                        virarUltimaCarta(pilhaColuna2, 2);
+                        // virar ultima carta da pilhaColuna2
+                        limparPilhaNaipe(1);
+                        ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        // redesenhar pilhaOuros
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna2).figura) == buscaFigura(ElementoTopo(pilhaOuros).figura) + 1)
+                    {
+                        Push(pilhaOuros, Pop(pilhaColuna2));
+                        virarUltimaCarta(pilhaColuna2, 2);
+                        // virar ultima carta da pilhaColuna2
+                        limparPilhaNaipe(1);
+                        ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 2:
+                if (Vazia(pilhaEspadas.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna2).figura) == 0)
+                    {
+                        Push(pilhaEspadas, Pop(pilhaColuna2));
+                        virarUltimaCarta(pilhaColuna2, 2);
+                        // virar ultima carta da pilhaColuna2
+                        limparPilhaNaipe(2);
+                        ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        // redesenhar pilhaEspadas
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna2).figura) == buscaFigura(ElementoTopo(pilhaEspadas).figura) + 1)
+                    {
+                        Push(pilhaEspadas, Pop(pilhaColuna2));
+                        virarUltimaCarta(pilhaColuna2, 2);
+                        // virar ultima carta da pilhaColuna2
+                        limparPilhaNaipe(2);
+                        ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 3:
+                if (Vazia(pilhaCopas.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna2).figura) == 0)
+                    {
+                        Push(pilhaCopas, Pop(pilhaColuna2));
+                        virarUltimaCarta(pilhaColuna2, 2);
+                        // virar ultima carta da pilhaColuna2
+                        limparPilhaNaipe(3);
+                        ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        // redesenhar pilhaCopas
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna2).figura) == buscaFigura(ElementoTopo(pilhaCopas).figura) + 1)
+                    {
+                        Push(pilhaCopas, Pop(pilhaColuna2));
+                        virarUltimaCarta(pilhaColuna2, 2);
+                        // virar ultima carta da pilhaColuna2
+                        limparPilhaNaipe(3);
+                        ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 4:
+                if (Vazia(pilhaPaus.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna2).figura) == 0)
+                    {
+                        Push(pilhaPaus, Pop(pilhaColuna2));
+                        virarUltimaCarta(pilhaColuna2, 2);
+                        // virar ultima carta da pilhaColuna2
+                        limparPilhaNaipe(4);
+                        ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        // redesenhar pilhaPaus
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna2).figura) == buscaFigura(ElementoTopo(pilhaPaus).figura) + 1)
+                    {
+                        Push(pilhaPaus, Pop(pilhaColuna2));
+                        virarUltimaCarta(pilhaColuna2, 2);
+                        // virar ultima carta da pilhaColuna2
+                        limparPilhaNaipe(4);
+                        ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+
+            default:
+                break;
+            }
+        }
+        break;
+    case 'C':
+        if (Vazia(pilhaColuna3.TOPO))
+        {
+            limpaMenu();
+            gotoxy(1, 18);
+            printf("Jogada invalida!\nDigite algo para voltar...");
+            getch();
+        }
+        else
+        {
+            tpCarta elTopo = ElementoTopo(pilhaColuna3);
+            switch (elTopo.naipe)
+            {
+            case 1:
+                if (Vazia(pilhaOuros.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna3).figura) == 0)
+                    {
+                        Push(pilhaOuros, Pop(pilhaColuna3));
+                        virarUltimaCarta(pilhaColuna3, 3);
+                        // virar ultima carta da pilhaColuna3
+                        limparPilhaNaipe(1);
+                        ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        // redesenhar pilhaOuros
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna3).figura) == buscaFigura(ElementoTopo(pilhaOuros).figura) + 1)
+                    {
+                        Push(pilhaOuros, Pop(pilhaColuna3));
+                        virarUltimaCarta(pilhaColuna3, 3);
+                        // virar ultima carta da pilhaColuna3
+                        limparPilhaNaipe(1);
+                        ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 2:
+                if (Vazia(pilhaEspadas.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna3).figura) == 0)
+                    {
+                        Push(pilhaEspadas, Pop(pilhaColuna3));
+                        virarUltimaCarta(pilhaColuna3, 3);
+                        // virar ultima carta da pilhaColuna3
+                        limparPilhaNaipe(2);
+                        ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        // redesenhar pilhaEspadas
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna3).figura) == buscaFigura(ElementoTopo(pilhaEspadas).figura) + 1)
+                    {
+                        Push(pilhaEspadas, Pop(pilhaColuna3));
+                        virarUltimaCarta(pilhaColuna3, 3);
+                        // virar ultima carta da pilhaColuna3
+                        limparPilhaNaipe(2);
+                        ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 3:
+                if (Vazia(pilhaCopas.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna3).figura) == 0)
+                    {
+                        Push(pilhaCopas, Pop(pilhaColuna3));
+                        virarUltimaCarta(pilhaColuna3, 3);
+                        // virar ultima carta da pilhaColuna3
+                        limparPilhaNaipe(3);
+                        ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        // redesenhar pilhaCopas
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna3).figura) == buscaFigura(ElementoTopo(pilhaCopas).figura) + 1)
+                    {
+                        Push(pilhaCopas, Pop(pilhaColuna3));
+                        virarUltimaCarta(pilhaColuna3, 3);
+                        // virar ultima carta da pilhaColuna3
+                        limparPilhaNaipe(3);
+                        ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 4:
+                if (Vazia(pilhaPaus.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna3).figura) == 0)
+                    {
+                        Push(pilhaPaus, Pop(pilhaColuna3));
+                        virarUltimaCarta(pilhaColuna3, 3);
+                        // virar ultima carta da pilhaColuna3
+                        limparPilhaNaipe(4);
+                        ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        // redesenhar pilhaPaus
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna3).figura) == buscaFigura(ElementoTopo(pilhaPaus).figura) + 1)
+                    {
+                        Push(pilhaPaus, Pop(pilhaColuna3));
+                        virarUltimaCarta(pilhaColuna3, 3);
+                        // virar ultima carta da pilhaColuna3
+                        limparPilhaNaipe(4);
+                        ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+
+            default:
+                break;
+            }
+        }
+        break;
+    case 'D':
+        if (Vazia(pilhaColuna4.TOPO))
+        {
+            limpaMenu();
+            gotoxy(1, 18);
+            printf("Jogada invalida!\nDigite algo para voltar...");
+            getch();
+        }
+        else
+        {
+            tpCarta elTopo = ElementoTopo(pilhaColuna4);
+            switch (elTopo.naipe)
+            {
+            case 1:
+                if (Vazia(pilhaOuros.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna4).figura) == 0)
+                    {
+                        Push(pilhaOuros, Pop(pilhaColuna4));
+                        virarUltimaCarta(pilhaColuna4, 4);
+                        // virar ultima carta da pilhaColuna4
+                        limparPilhaNaipe(1);
+                        ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        // redesenhar pilhaOuros
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna4).figura) == buscaFigura(ElementoTopo(pilhaOuros).figura) + 1)
+                    {
+                        Push(pilhaOuros, Pop(pilhaColuna4));
+                        virarUltimaCarta(pilhaColuna4, 4);
+                        // virar ultima carta da pilhaColuna4
+                        limparPilhaNaipe(1);
+                        ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 2:
+                if (Vazia(pilhaEspadas.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna4).figura) == 0)
+                    {
+                        Push(pilhaEspadas, Pop(pilhaColuna4));
+                        virarUltimaCarta(pilhaColuna4, 4);
+                        // virar ultima carta da pilhaColuna4
+                        limparPilhaNaipe(2);
+                        ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        // redesenhar pilhaEspadas
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna4).figura) == buscaFigura(ElementoTopo(pilhaEspadas).figura) + 1)
+                    {
+                        Push(pilhaEspadas, Pop(pilhaColuna4));
+                        virarUltimaCarta(pilhaColuna4, 4);
+                        // virar ultima carta da pilhaColuna4
+                        limparPilhaNaipe(2);
+                        ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 3:
+                if (Vazia(pilhaCopas.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna4).figura) == 0)
+                    {
+                        Push(pilhaCopas, Pop(pilhaColuna4));
+                        virarUltimaCarta(pilhaColuna4, 4);
+                        // virar ultima carta da pilhaColuna4
+                        limparPilhaNaipe(3);
+                        ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        // redesenhar pilhaCopas
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna4).figura) == buscaFigura(ElementoTopo(pilhaCopas).figura) + 1)
+                    {
+                        Push(pilhaCopas, Pop(pilhaColuna4));
+                        virarUltimaCarta(pilhaColuna4, 4);
+                        // virar ultima carta da pilhaColuna4
+                        limparPilhaNaipe(3);
+                        ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 4:
+                if (Vazia(pilhaPaus.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna4).figura) == 0)
+                    {
+                        Push(pilhaPaus, Pop(pilhaColuna4));
+                        virarUltimaCarta(pilhaColuna4, 4);
+                        // virar ultima carta da pilhaColuna4
+                        limparPilhaNaipe(4);
+                        ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        // redesenhar pilhaPaus
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna4).figura) == buscaFigura(ElementoTopo(pilhaPaus).figura) + 1)
+                    {
+                        Push(pilhaPaus, Pop(pilhaColuna4));
+                        virarUltimaCarta(pilhaColuna4, 4);
+                        // virar ultima carta da pilhaColuna4
+                        limparPilhaNaipe(4);
+                        ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+
+            default:
+                break;
+            }
+        }
+        break;
+    case 'E':
+        if (Vazia(pilhaColuna5.TOPO))
+        {
+            limpaMenu();
+            gotoxy(1, 18);
+            printf("Jogada invalida!\nDigite algo para voltar...");
+            getch();
+        }
+        else
+        {
+            tpCarta elTopo = ElementoTopo(pilhaColuna5);
+            switch (elTopo.naipe)
+            {
+            case 1:
+                if (Vazia(pilhaOuros.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna5).figura) == 0)
+                    {
+                        Push(pilhaOuros, Pop(pilhaColuna5));
+                        virarUltimaCarta(pilhaColuna5, 5);
+                        // virar ultima carta da pilhaColuna5
+                        limparPilhaNaipe(1);
+                        ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        // redesenhar pilhaOuros
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna5).figura) == buscaFigura(ElementoTopo(pilhaOuros).figura) + 1)
+                    {
+                        Push(pilhaOuros, Pop(pilhaColuna5));
+                        virarUltimaCarta(pilhaColuna5, 5);
+                        // virar ultima carta da pilhaColuna5
+                        limparPilhaNaipe(1);
+                        ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 2:
+                if (Vazia(pilhaEspadas.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna5).figura) == 0)
+                    {
+                        Push(pilhaEspadas, Pop(pilhaColuna5));
+                        virarUltimaCarta(pilhaColuna5, 5);
+                        // virar ultima carta da pilhaColuna5
+                        limparPilhaNaipe(2);
+                        ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        // redesenhar pilhaEspadas
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna5).figura) == buscaFigura(ElementoTopo(pilhaEspadas).figura) + 1)
+                    {
+                        Push(pilhaEspadas, Pop(pilhaColuna5));
+                        virarUltimaCarta(pilhaColuna5, 5);
+                        // virar ultima carta da pilhaColuna5
+                        limparPilhaNaipe(2);
+                        ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 3:
+                if (Vazia(pilhaCopas.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna5).figura) == 0)
+                    {
+                        Push(pilhaCopas, Pop(pilhaColuna5));
+                        virarUltimaCarta(pilhaColuna5, 5);
+                        // virar ultima carta da pilhaColuna5
+                        limparPilhaNaipe(3);
+                        ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        // redesenhar pilhaCopas
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna5).figura) == buscaFigura(ElementoTopo(pilhaCopas).figura) + 1)
+                    {
+                        Push(pilhaCopas, Pop(pilhaColuna5));
+                        virarUltimaCarta(pilhaColuna5, 5);
+                        // virar ultima carta da pilhaColuna5
+                        limparPilhaNaipe(3);
+                        ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 4:
+                if (Vazia(pilhaPaus.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna5).figura) == 0)
+                    {
+                        Push(pilhaPaus, Pop(pilhaColuna5));
+                        virarUltimaCarta(pilhaColuna5, 5);
+                        // virar ultima carta da pilhaColuna5
+                        limparPilhaNaipe(4);
+                        ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        // redesenhar pilhaPaus
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna5).figura) == buscaFigura(ElementoTopo(pilhaPaus).figura) + 1)
+                    {
+                        Push(pilhaPaus, Pop(pilhaColuna5));
+                        virarUltimaCarta(pilhaColuna5, 5);
+                        // virar ultima carta da pilhaColuna5
+                        limparPilhaNaipe(4);
+                        ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+
+            default:
+                break;
+            }
+        }
+        break;
+    case 'F':
+        if (Vazia(pilhaColuna6.TOPO))
+        {
+            limpaMenu();
+            gotoxy(1, 18);
+            printf("Jogada invalida!\nDigite algo para voltar...");
+            getch();
+        }
+        else
+        {
+            tpCarta elTopo = ElementoTopo(pilhaColuna6);
+            switch (elTopo.naipe)
+            {
+            case 1:
+                if (Vazia(pilhaOuros.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna6).figura) == 0)
+                    {
+                        Push(pilhaOuros, Pop(pilhaColuna6));
+                        virarUltimaCarta(pilhaColuna6, 6);
+                        // virar ultima carta da pilhaColuna6
+                        limparPilhaNaipe(1);
+                        ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        // redesenhar pilhaOuros
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna6).figura) == buscaFigura(ElementoTopo(pilhaOuros).figura) + 1)
+                    {
+                        Push(pilhaOuros, Pop(pilhaColuna6));
+                        virarUltimaCarta(pilhaColuna6, 6);
+                        // virar ultima carta da pilhaColuna6
+                        limparPilhaNaipe(1);
+                        ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 2:
+                if (Vazia(pilhaEspadas.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna6).figura) == 0)
+                    {
+                        Push(pilhaEspadas, Pop(pilhaColuna6));
+                        virarUltimaCarta(pilhaColuna6, 6);
+                        // virar ultima carta da pilhaColuna6
+                        limparPilhaNaipe(2);
+                        ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        // redesenhar pilhaEspadas
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna6).figura) == buscaFigura(ElementoTopo(pilhaEspadas).figura) + 1)
+                    {
+                        Push(pilhaEspadas, Pop(pilhaColuna6));
+                        virarUltimaCarta(pilhaColuna6, 6);
+                        // virar ultima carta da pilhaColuna6
+                        limparPilhaNaipe(2);
+                        ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 3:
+                if (Vazia(pilhaCopas.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna6).figura) == 0)
+                    {
+                        Push(pilhaCopas, Pop(pilhaColuna6));
+                        virarUltimaCarta(pilhaColuna6, 6);
+                        // virar ultima carta da pilhaColuna6
+                        limparPilhaNaipe(3);
+                        ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        // redesenhar pilhaCopas
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna6).figura) == buscaFigura(ElementoTopo(pilhaCopas).figura) + 1)
+                    {
+                        Push(pilhaCopas, Pop(pilhaColuna6));
+                        virarUltimaCarta(pilhaColuna6, 6);
+                        // virar ultima carta da pilhaColuna6
+                        limparPilhaNaipe(3);
+                        ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 4:
+                if (Vazia(pilhaPaus.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna6).figura) == 0)
+                    {
+                        Push(pilhaPaus, Pop(pilhaColuna6));
+                        virarUltimaCarta(pilhaColuna6, 6);
+                        // virar ultima carta da pilhaColuna6
+                        limparPilhaNaipe(4);
+                        ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        // redesenhar pilhaPaus
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna6).figura) == buscaFigura(ElementoTopo(pilhaPaus).figura) + 1)
+                    {
+                        Push(pilhaPaus, Pop(pilhaColuna6));
+                        virarUltimaCarta(pilhaColuna6, 6);
+                        // virar ultima carta da pilhaColuna6
+                        limparPilhaNaipe(4);
+                        ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+
+            default:
+                break;
+            }
+        }
+        break;
+    case 'G':
+        if (Vazia(pilhaColuna7.TOPO))
+        {
+            limpaMenu();
+            gotoxy(1, 18);
+            printf("Jogada invalida!\nDigite algo para voltar...");
+            getch();
+        }
+        else
+        {
+            tpCarta elTopo = ElementoTopo(pilhaColuna7);
+            switch (elTopo.naipe)
+            {
+            case 1:
+                if (Vazia(pilhaOuros.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna7).figura) == 0)
+                    {
+                        Push(pilhaOuros, Pop(pilhaColuna7));
+                        virarUltimaCarta(pilhaColuna7, 7);
+                        // virar ultima carta da pilhaColuna7
+                        limparPilhaNaipe(1);
+                        ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        // redesenhar pilhaOuros
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna7).figura) == buscaFigura(ElementoTopo(pilhaOuros).figura) + 1)
+                    {
+                        Push(pilhaOuros, Pop(pilhaColuna7));
+                        virarUltimaCarta(pilhaColuna7, 7);
+                        // virar ultima carta da pilhaColuna7
+                        limparPilhaNaipe(1);
+                        ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 2:
+                if (Vazia(pilhaEspadas.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna7).figura) == 0)
+                    {
+                        Push(pilhaEspadas, Pop(pilhaColuna7));
+                        virarUltimaCarta(pilhaColuna7, 7);
+                        // virar ultima carta da pilhaColuna7
+                        limparPilhaNaipe(2);
+                        ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        // redesenhar pilhaEspadas
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna7).figura) == buscaFigura(ElementoTopo(pilhaEspadas).figura) + 1)
+                    {
+                        Push(pilhaEspadas, Pop(pilhaColuna7));
+                        virarUltimaCarta(pilhaColuna7, 7);
+                        // virar ultima carta da pilhaColuna7
+                        limparPilhaNaipe(2);
+                        ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 3:
+                if (Vazia(pilhaCopas.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna7).figura) == 0)
+                    {
+                        Push(pilhaCopas, Pop(pilhaColuna7));
+                        virarUltimaCarta(pilhaColuna7, 7);
+                        // virar ultima carta da pilhaColuna7
+                        limparPilhaNaipe(3);
+                        ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        // redesenhar pilhaCopas
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna7).figura) == buscaFigura(ElementoTopo(pilhaCopas).figura) + 1)
+                    {
+                        Push(pilhaCopas, Pop(pilhaColuna7));
+                        virarUltimaCarta(pilhaColuna7, 7);
+                        // virar ultima carta da pilhaColuna7
+                        limparPilhaNaipe(3);
+                        ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+            case 4:
+                if (Vazia(pilhaPaus.TOPO))
+                {
+                    if (buscaFigura(ElementoTopo(pilhaColuna7).figura) == 0)
+                    {
+                        Push(pilhaPaus, Pop(pilhaColuna7));
+                        virarUltimaCarta(pilhaColuna7, 7);
+                        // virar ultima carta da pilhaColuna7
+                        limparPilhaNaipe(4);
+                        ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        // redesenhar pilhaPaus
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                else
+                {
+                    // comparar topo de uma com a outra
+                    if (buscaFigura(ElementoTopo(pilhaColuna7).figura) == buscaFigura(ElementoTopo(pilhaPaus).figura) + 1)
+                    {
+                        Push(pilhaPaus, Pop(pilhaColuna7));
+                        virarUltimaCarta(pilhaColuna7, 7);
+                        // virar ultima carta da pilhaColuna7
+                        limparPilhaNaipe(4);
+                        ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                    }
+                    else
+                    {
+                        limpaMenu();
+                        gotoxy(1, 18);
+                        printf("Jogada invalida!\nDigite algo para voltar...");
+                        getch();
+                    }
+                }
+                break;
+
+            default:
+                break;
+            }
+        }
+        break;
+
+    default:
+        break;
+    }
 }
 
 char submenuMontesNaipe()
@@ -463,7 +1729,7 @@ char submenuMontesNaipe()
     return toupper(getche());
 }
 
-char submenuMontesColunas(int excluirQual = 0)
+char submenuMontesColunas(int excluirQual)
 {
     if (excluirQual == 0)
     {
@@ -1896,42 +3162,45 @@ int indexPrimeiraCartaViradaPraCima(TpPilha p)
 
 void virarUltimaCarta(TpPilha &p, int numPilha)
 {
-    tpCarta aux = Pop(p);
-    if (aux.viradaPraCima == 1)
+    if (!Vazia(p.TOPO))
     {
-        Push(p, aux);
-    }
-    else
-    {
-        aux.viradaPraCima = 1;
-        Push(p, aux);
-        int colI;
-        switch (numPilha)
+        tpCarta aux = Pop(p);
+        if (aux.viradaPraCima == 1)
         {
-        case 1:
-            colI = 14;
-            break;
-        case 2:
-            colI = 23;
-            break;
-        case 3:
-            colI = 32;
-            break;
-        case 4:
-            colI = 41;
-            break;
-        case 5:
-            colI = 50;
-            break;
-        case 6:
-            colI = 59;
-            break;
-        case 7:
-            colI = 68;
-            break;
+            Push(p, aux);
         }
-        limparPilhaColuna(numPilha);
-        ExbibirTemporarioSoVerPilha(p, colI, 3, 1);
+        else
+        {
+            aux.viradaPraCima = 1;
+            Push(p, aux);
+            int colI;
+            switch (numPilha)
+            {
+            case 1:
+                colI = 14;
+                break;
+            case 2:
+                colI = 23;
+                break;
+            case 3:
+                colI = 32;
+                break;
+            case 4:
+                colI = 41;
+                break;
+            case 5:
+                colI = 50;
+                break;
+            case 6:
+                colI = 59;
+                break;
+            case 7:
+                colI = 68;
+                break;
+            }
+            limparPilhaColuna(numPilha);
+            ExbibirTemporarioSoVerPilha(p, colI, 3, 1);
+        }
     }
 }
 
@@ -3876,7 +5145,8 @@ void executar()
             limpaMenu();
             break;
         case 'B':
-            moveMesaNaipe();
+            moveMesaNaipe(pilhaOuros, pilhaEspadas, pilhaCopas, pilhaPaus, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7);
+            limpaMenu();
             // contagemDeMovimentos();
             break;
         case 'C':
