@@ -28,7 +28,7 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
 void moveMesaNaipe();
 void moveMonteViradoParaNaipe(TpPilha monteVirado, TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCopas, TpPilha &pilhaPaus);
 void moveMonteViradoParaNaipe();
-void moveMonteViradoParaMesa();
+void moveMonteViradoParaMesa(TpPilha &pilhaMonteVirado, TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaColuna3, TpPilha &pilhaColuna4, TpPilha &pilhaColuna5, TpPilha &pilhaColuna6, TpPilha &pilhaColuna7);
 
 // verificacoes
 int quantasCartasTemNaPilha(TpPilha p);
@@ -410,10 +410,7 @@ char menuPrincipal(TpPilha pilhaMonte, TpPilha pilhaMonteVirado)
     printf("[B] Mover da Mesa para Naipe\n");
     printf("[C] Mover monte Naipe para Mesa\n");
     printf("[D] Mover entre montes da Mesa\n");
-    if (!Vazia(pilhaMonteVirado.TOPO))
-    {
-        printf("[E] Mover carta do Baralho para Mesa\n");
-    }
+    printf("[E] Mover carta do Baralho para Mesa\n");
     printf("[F] Mover carta do Baralho para monte Naipe\n");
     printf("[ESC] Sair\n");
     printf("Opcao desejada: ");
@@ -1894,6 +1891,48 @@ int indexPrimeiraCartaViradaPraCima(TpPilha p)
         }
         cont++;
     }
+    return cont;
+}
+
+void virarUltimaCarta(TpPilha &p, int numPilha)
+{
+    tpCarta aux = Pop(p);
+    if (aux.viradaPraCima == 1)
+    {
+        Push(p, aux);
+    }
+    else
+    {
+        aux.viradaPraCima = 1;
+        Push(p, aux);
+        int colI;
+        switch (numPilha)
+        {
+        case 1:
+            colI = 14;
+            break;
+        case 2:
+            colI = 23;
+            break;
+        case 3:
+            colI = 32;
+            break;
+        case 4:
+            colI = 41;
+            break;
+        case 5:
+            colI = 50;
+            break;
+        case 6:
+            colI = 59;
+            break;
+        case 7:
+            colI = 68;
+            break;
+        }
+        limparPilhaColuna(numPilha);
+        ExbibirTemporarioSoVerPilha(p, colI, 3, 1);
+    }
 }
 
 void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaColuna3, TpPilha &pilhaColuna4, TpPilha &pilhaColuna5, TpPilha &pilhaColuna6, TpPilha &pilhaColuna7)
@@ -1965,7 +2004,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna1));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna2, Pop(aux));
@@ -1992,7 +2034,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna1));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna3, Pop(aux));
@@ -2019,7 +2064,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna1));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna4, Pop(aux));
@@ -2046,7 +2094,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna1));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna5, Pop(aux));
@@ -2073,7 +2124,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna1));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna6, Pop(aux));
@@ -2100,7 +2154,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna1));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna7, Pop(aux));
@@ -2118,6 +2175,7 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                 }
             }
             // getch();
+            virarUltimaCarta(pilhaColuna1, 1);
         }
         break;
     case 'B':
@@ -2162,7 +2220,7 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                 limpaMenu();
                 gotoxy(1, 18);
                 printf("Colocar onde: ");
-                op = submenuMontesColunas(7);
+                op = submenuMontesColunas(2);
                 switch (op)
                 {
                 case 'A':
@@ -2179,7 +2237,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna2));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna1, Pop(aux));
@@ -2206,7 +2267,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna2));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna3, Pop(aux));
@@ -2233,7 +2297,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna2));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna4, Pop(aux));
@@ -2260,7 +2327,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna2));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna5, Pop(aux));
@@ -2287,7 +2357,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna2));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna6, Pop(aux));
@@ -2314,7 +2387,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna2));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna7, Pop(aux));
@@ -2332,6 +2408,7 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                 }
             }
             // getch();
+            virarUltimaCarta(pilhaColuna2, 2);
         }
         break;
     case 'C':
@@ -2377,7 +2454,7 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                 limpaMenu();
                 gotoxy(1, 18);
                 printf("Colocar onde: ");
-                op = submenuMontesColunas(7);
+                op = submenuMontesColunas(3);
                 switch (op)
                 {
                 case 'A':
@@ -2394,7 +2471,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna3));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna1, Pop(aux));
@@ -2421,7 +2501,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna3));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna2, Pop(aux));
@@ -2448,7 +2531,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna3));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna4, Pop(aux));
@@ -2475,7 +2561,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna3));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna5, Pop(aux));
@@ -2502,7 +2591,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna3));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna6, Pop(aux));
@@ -2529,7 +2621,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna3));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna7, Pop(aux));
@@ -2547,6 +2642,7 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                 }
             }
             // getch();
+            virarUltimaCarta(pilhaColuna3, 3);
         }
         break;
     case 'D':
@@ -2592,7 +2688,7 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                 limpaMenu();
                 gotoxy(1, 18);
                 printf("Colocar onde: ");
-                op = submenuMontesColunas(7);
+                op = submenuMontesColunas(4);
                 switch (op)
                 {
                 case 'A':
@@ -2609,7 +2705,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna4));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna1, Pop(aux));
@@ -2636,7 +2735,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna4));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna2, Pop(aux));
@@ -2663,7 +2765,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna4));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna3, Pop(aux));
@@ -2690,7 +2795,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna4));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna5, Pop(aux));
@@ -2717,7 +2825,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna4));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna6, Pop(aux));
@@ -2744,7 +2855,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna4));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna7, Pop(aux));
@@ -2762,6 +2876,7 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                 }
             }
             // getch();
+            virarUltimaCarta(pilhaColuna4, 4);
         }
         break;
     case 'E':
@@ -2807,7 +2922,7 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                 limpaMenu();
                 gotoxy(1, 18);
                 printf("Colocar onde: ");
-                op = submenuMontesColunas(7);
+                op = submenuMontesColunas(5);
                 switch (op)
                 {
                 case 'A':
@@ -2824,7 +2939,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna5));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna1, Pop(aux));
@@ -2851,10 +2969,16 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna5));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna2, Pop(aux));
+                            {
+                            }
+                            cont++;
                         }
                         limparPilhaColuna(5);
                         limparPilhaColuna(2);
@@ -2878,7 +3002,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna5));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna3, Pop(aux));
@@ -2905,7 +3032,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna5));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna4, Pop(aux));
@@ -2932,7 +3062,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna5));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna6, Pop(aux));
@@ -2959,7 +3092,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna5));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna7, Pop(aux));
@@ -2977,6 +3113,7 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                 }
             }
             // getch();
+            virarUltimaCarta(pilhaColuna5, 5);
         }
         break;
     case 'F':
@@ -3021,7 +3158,7 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                 limpaMenu();
                 gotoxy(1, 18);
                 printf("Colocar onde: ");
-                op = submenuMontesColunas(7);
+                op = submenuMontesColunas(6);
                 switch (op)
                 {
                 case 'A':
@@ -3038,7 +3175,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna6));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna1, Pop(aux));
@@ -3065,7 +3205,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna6));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna2, Pop(aux));
@@ -3092,7 +3235,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna6));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna3, Pop(aux));
@@ -3119,7 +3265,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna6));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna4, Pop(aux));
@@ -3146,7 +3295,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna6));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna5, Pop(aux));
@@ -3160,7 +3312,7 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                     }
                     break;
                 case 'G':
-                    if (!verificaJogadaMesaMesa(pilhaColuna5, pilhaColuna7, qteDeCartasAMover))
+                    if (!verificaJogadaMesaMesa(pilhaColuna6, pilhaColuna7, qteDeCartasAMover))
                     {
                         limpaMenu();
                         gotoxy(1, 18);
@@ -3173,15 +3325,18 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
-                            Push(aux, Pop(pilhaColuna5));
+                        {
+                            Push(aux, Pop(pilhaColuna6));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna7, Pop(aux));
                         }
                         limparPilhaColuna(7);
-                        limparPilhaColuna(5);
+                        limparPilhaColuna(6);
                         ExbibirTemporarioSoVerPilha(pilhaColuna7, 68, 3, 1);
-                        ExbibirTemporarioSoVerPilha(pilhaColuna5, 50, 3, 1);
+                        ExbibirTemporarioSoVerPilha(pilhaColuna6, 59, 3, 1);
                         limpaMenu();
                         contagemDeMovimentos();
                     }
@@ -3189,10 +3344,11 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                 default:
                     break;
                 }
+                // getch();
+                virarUltimaCarta(pilhaColuna6, 6);
             }
-            // getch();
+            break;
         }
-        break;
     case 'G':
         // ESCOLHEU pilhaColuna7
 
@@ -3253,7 +3409,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna7));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna1, Pop(aux));
@@ -3280,7 +3439,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna7));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna2, Pop(aux));
@@ -3307,7 +3469,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna7));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna3, Pop(aux));
@@ -3334,7 +3499,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna7));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna4, Pop(aux));
@@ -3361,7 +3529,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna7));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna5, Pop(aux));
@@ -3388,7 +3559,10 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                         Inicializar(aux);
                         int cont = 0;
                         while (cont != qteDeCartasAMover)
+                        {
                             Push(aux, Pop(pilhaColuna7));
+                            cont++;
+                        }
                         while (!Vazia(aux.TOPO))
                         {
                             Push(pilhaColuna6, Pop(aux));
@@ -3406,6 +3580,7 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
                 }
             }
             // getch();
+            virarUltimaCarta(pilhaColuna7, 7);
         }
         break;
     default:
@@ -3413,17 +3588,143 @@ void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaCo
     }
 }
 
-void moveMonteViradoParaMesa(TpPilha &monteVirado, &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaColuna3, TpPilha &pilhaColuna4, TpPilha &pilhaColuna5, TpPilha &pilhaColuna6, TpPilha &pilhaColuna7)
+int verificaMoveMonteViradoParaMesa(TpPilha pilhaMonteVirado, TpPilha destino)
+{
+    if (Vazia(destino.TOPO))
+    {
+        // verificar se é rei, se nao return 0
+        int posPrimeiraCartapilhaMonteVirado = buscaFigura(ElementoTopo(pilhaMonteVirado).figura);
+        return posPrimeiraCartapilhaMonteVirado != 12 ? 0 : 1;
+    }
+    else
+    {
+        // verificar se ultima carta de pilhaMV é uma antes de destino e se é de cor diferente
+        if (ElementoTopo(destino).preto == ElementoTopo(pilhaMonteVirado).preto || buscaFigura(ElementoTopo(pilhaMonteVirado).figura) != buscaFigura(ElementoTopo(destino).figura) - 1)
+            return 0;
+    }
+    return 1;
+}
+
+void moveMonteViradoParaMesa(TpPilha &pilhaMonteVirado, TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaColuna3, TpPilha &pilhaColuna4, TpPilha &pilhaColuna5, TpPilha &pilhaColuna6, TpPilha &pilhaColuna7)
 {
     limpaMenu();
     gotoxy(1, 18);
-    printf("Qual monte deseja enviar a carta? ");
+    printf("Para qual monte: ");
     char op = submenuMontesColunas();
     switch (op)
     {
     case 'A':
-        if ()
-            break;
+        if (verificaMoveMonteViradoParaMesa(pilhaMonteVirado, pilhaColuna1))
+        {
+            Push(pilhaColuna1, Pop(pilhaMonteVirado));
+            limparPilhaMonteVirado();
+            ExbibirTemporarioSoVerPilha(pilhaMonteVirado, 2, 10, 2);
+            ExbibirTemporarioSoVerPilha(pilhaColuna1, 14, 3, 1);
+        }
+        else
+        {
+            limpaMenu();
+            gotoxy(1, 18);
+            printf("Jogada invalida!\nDigite algo para sair...");
+            getch();
+        }
+        break;
+    case 'B':
+        if (verificaMoveMonteViradoParaMesa(pilhaMonteVirado, pilhaColuna2))
+        {
+            Push(pilhaColuna2, Pop(pilhaMonteVirado));
+            limparPilhaMonteVirado();
+            ExbibirTemporarioSoVerPilha(pilhaMonteVirado, 2, 10, 2);
+            ExbibirTemporarioSoVerPilha(pilhaColuna2, 23, 3, 1);
+        }
+        else
+        {
+            limpaMenu();
+            gotoxy(1, 18);
+            printf("Jogada invalida!\nDigite algo para sair...");
+            getch();
+        }
+        break;
+    case 'C':
+        if (verificaMoveMonteViradoParaMesa(pilhaMonteVirado, pilhaColuna3))
+        {
+            Push(pilhaColuna3, Pop(pilhaMonteVirado));
+            limparPilhaMonteVirado();
+            ExbibirTemporarioSoVerPilha(pilhaMonteVirado, 2, 10, 2);
+            ExbibirTemporarioSoVerPilha(pilhaColuna3, 32, 3, 1);
+        }
+        else
+        {
+            limpaMenu();
+            gotoxy(1, 18);
+            printf("Jogada invalida!\nDigite algo para sair...");
+            getch();
+        }
+        break;
+    case 'D':
+        if (verificaMoveMonteViradoParaMesa(pilhaMonteVirado, pilhaColuna4))
+        {
+            Push(pilhaColuna4, Pop(pilhaMonteVirado));
+            limparPilhaMonteVirado();
+            ExbibirTemporarioSoVerPilha(pilhaMonteVirado, 2, 10, 2);
+            ExbibirTemporarioSoVerPilha(pilhaColuna4, 41, 3, 1);
+        }
+        else
+        {
+            limpaMenu();
+            gotoxy(1, 18);
+            printf("Jogada invalida!\nDigite algo para sair...");
+            getch();
+        }
+        break;
+    case 'E':
+        if (verificaMoveMonteViradoParaMesa(pilhaMonteVirado, pilhaColuna5))
+        {
+            Push(pilhaColuna5, Pop(pilhaMonteVirado));
+            limparPilhaMonteVirado();
+            ExbibirTemporarioSoVerPilha(pilhaMonteVirado, 2, 10, 2);
+            ExbibirTemporarioSoVerPilha(pilhaColuna5, 50, 3, 1);
+        }
+        else
+        {
+            limpaMenu();
+            gotoxy(1, 18);
+            printf("Jogada invalida!\nDigite algo para sair...");
+            getch();
+        }
+        break;
+    case 'F':
+        if (verificaMoveMonteViradoParaMesa(pilhaMonteVirado, pilhaColuna6))
+        {
+            Push(pilhaColuna6, Pop(pilhaMonteVirado));
+            limparPilhaMonteVirado();
+            ExbibirTemporarioSoVerPilha(pilhaMonteVirado, 2, 10, 2);
+            ExbibirTemporarioSoVerPilha(pilhaColuna6, 59, 3, 1);
+        }
+        else
+        {
+            limpaMenu();
+            gotoxy(1, 18);
+            printf("Jogada invalida!\nDigite algo para sair...");
+            getch();
+        }
+        break;
+    case 'G':
+        if (verificaMoveMonteViradoParaMesa(pilhaMonteVirado, pilhaColuna7))
+        {
+            Push(pilhaColuna7, Pop(pilhaMonteVirado));
+            limparPilhaMonteVirado();
+            ExbibirTemporarioSoVerPilha(pilhaMonteVirado, 2, 10, 2);
+            ExbibirTemporarioSoVerPilha(pilhaColuna7, 68, 3, 1);
+        }
+        else
+        {
+            limpaMenu();
+            gotoxy(1, 18);
+            printf("Jogada invalida!\nDigite algo para sair...");
+            getch();
+        }
+        break;
 
     default:
         break;
@@ -3481,6 +3782,22 @@ void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, 
         {
             Push(pilhaMonte, Pop(pilhaMonteVirado));
         }
+        // while (!Vazia(aux.TOPO))
+        // {
+        //     Push(pilhaMonte, Pop(aux));
+        // }
+
+        // tpCarta aux[qtasCartas];
+        // for (int i = 0; i < qtasCartas; i++)
+        //     aux[i] = Pop(pilhaMonteVirado);
+
+        // srand(time(NULL));
+        // embaralhar(aux, qtasCartas);
+
+        // for (int j = 0; j < qtasCartas; j++)
+        // {
+        //     Push(pilhaMonte, aux[j]);
+        // }
         qteCartasPilhaMonte = qtasCartas;
         // tirar carta do pilhaMonte
         // colocar no pilhaMonteViredo
@@ -3575,11 +3892,11 @@ void executar()
         case 'E':
             if (!Vazia(pilhaMonteVirado.TOPO))
             {
-                moveMonteViradoParaMesa();
+                moveMonteViradoParaMesa(pilhaMonteVirado, pilhaColuna1, pilhaColuna2, pilhaColuna3, pilhaColuna4, pilhaColuna5, pilhaColuna6, pilhaColuna7);
             }
-            limpaMenu()
-                // contagemDeMovimentos();
-                break;
+            limpaMenu();
+            // contagemDeMovimentos();
+            break;
         case 'F':
             moveMonteViradoParaNaipe(pilhaMonteVirado, pilhaOuros, pilhaEspadas, pilhaCopas, pilhaPaus);
             limpaMenu();
