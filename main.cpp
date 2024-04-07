@@ -11,7 +11,6 @@
 #include "TADPilha.h"
 // #include "TadPilhaM1.h"
 // #include "TADPilhaM2.h"
-
 int movimentos = 0;
 
 // declarao de funcoes
@@ -26,7 +25,7 @@ void moveMesaTemp();
 void moveNaipeMesa(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCopas, TpPilha &pilhaPaus, TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaColuna3, TpPilha &pilhaColuna4, TpPilha &pilhaColuna5, TpPilha &pilhaColuna6, TpPilha &pilhaColuna7);
 void moveMesaMesa(TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaColuna3, TpPilha &pilhaColuna4, TpPilha &pilhaColuna5, TpPilha &pilhaColuna6, TpPilha &pilhaColuna7);
 void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCopas, TpPilha &pilhaPaus, TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaColuna3, TpPilha &pilhaColuna4, TpPilha &pilhaColuna5, TpPilha &pilhaColuna6, TpPilha &pilhaColuna7);
-void moveMonteViradoParaNaipe(TpPilha monteVirado, TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCopas, TpPilha &pilhaPaus);
+void moveMonteViradoParaNaipe(TpPilha &monteVirado, TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCopas, TpPilha &pilhaPaus);
 void moveMonteViradoParaNaipe();
 void moveMonteViradoParaMesa(TpPilha &pilhaMonteVirado, TpPilha &pilhaColuna1, TpPilha &pilhaColuna2, TpPilha &pilhaColuna3, TpPilha &pilhaColuna4, TpPilha &pilhaColuna5, TpPilha &pilhaColuna6, TpPilha &pilhaColuna7);
 
@@ -133,67 +132,149 @@ int verificarMoverMonteParaNaipe(TpPilha monteVirado, TpPilha pilhaOuro, TpPilha
 
     if (monte == 1)
     {
-        tpCarta aux = Pop(pilhaOuro);
-        if ((buscaFigura(cartaTopoMonte.figura) > buscaFigura(aux.figura)) && cartaTopoMonte.preto == aux.preto)
+        if (Vazia(pilhaOuro.TOPO))
         {
-            return 1;
+            if (buscaFigura(cartaTopoMonte.figura) != 0)
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            tpCarta aux = ElementoTopo(pilhaOuro);
+            if (buscaFigura(cartaTopoMonte.figura) != buscaFigura(aux.figura) + 1)
+            {
+                return 0;
+            }
         }
     }
     if (monte == 2)
     {
-        tpCarta aux = Pop(pilhaEspadas);
-        if ((buscaFigura(cartaTopoMonte.figura) > buscaFigura(aux.figura)) && cartaTopoMonte.preto == aux.preto)
+        if (Vazia(pilhaEspadas.TOPO))
         {
-            return 1;
+            if (buscaFigura(cartaTopoMonte.figura) != 0)
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            tpCarta aux = ElementoTopo(pilhaEspadas);
+            if (buscaFigura(cartaTopoMonte.figura) != buscaFigura(aux.figura) + 1)
+            {
+                return 0;
+            }
         }
     }
     if (monte == 3)
     {
-        tpCarta aux = Pop(pilhaCopas);
-        if ((buscaFigura(cartaTopoMonte.figura) > buscaFigura(aux.figura)) && cartaTopoMonte.preto == aux.preto)
+        if (Vazia(pilhaCopas.TOPO))
         {
-            return 1;
+            if (buscaFigura(cartaTopoMonte.figura) != 0)
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            tpCarta aux = ElementoTopo(pilhaCopas);
+            if (buscaFigura(cartaTopoMonte.figura) != buscaFigura(aux.figura) + 1)
+            {
+                return 0;
+            }
         }
     }
     if (monte == 4)
     {
 
-        tpCarta aux = Pop(pilhaPaus);
-        if ((buscaFigura(cartaTopoMonte.figura) > buscaFigura(aux.figura)) && cartaTopoMonte.preto == aux.preto)
+        if (Vazia(pilhaPaus.TOPO))
         {
-            return 1;
+            if (buscaFigura(cartaTopoMonte.figura) != 0)
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            tpCarta aux = ElementoTopo(pilhaPaus);
+            if (buscaFigura(cartaTopoMonte.figura) != buscaFigura(aux.figura) + 1)
+            {
+                return 0;
+            }
         }
     }
-    return -1;
+    return 1;
 }
 
-void moveMonteViradoParaNaipe(TpPilha monteVirado, TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCopas, TpPilha &pilhaPaus)
+void moveMonteViradoParaNaipe(TpPilha &monteVirado, TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCopas, TpPilha &pilhaPaus)
 {
+    limpaMenu();
+    gotoxy(1, 18);
     printf("\nQual monte de naipes desejar mover essa carta (1-4)");
 
-    int monte = scanf("%d", &monte);
+    int monte = 0;
+    scanf("%d", &monte);
 
-    while (monte > 4 && monte < 1)
+    while (monte > 4 || monte < 1)
     {
+        limpaMenu();
+        gotoxy(1, 18);
         printf("O numero do monte digitado nao existe");
+        getch();
+        limpaMenu();
+        gotoxy(1, 18);
         printf("Digite novamente: (1-4)");
         scanf("%d", &monte);
     }
     if (!Vazia(monteVirado.TOPO))
     {
-        if (verificarMoverMonteParaNaipe(monteVirado, pilhaOuros, pilhaEspadas, pilhaCopas, pilhaPaus, monte) != -1)
+        if (verificarMoverMonteParaNaipe(monteVirado, pilhaOuros, pilhaEspadas, pilhaCopas, pilhaPaus, monte))
         {
-            Push(pilhaPaus, Pop(monteVirado));
+            if (monte == 1)
+            {
+                Push(pilhaOuros, Pop(monteVirado));
+                limparPilhaNaipe(1);
+                limparPilhaMonteVirado();
+                ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                ExbibirTemporarioSoVerPilha(monteVirado, 2, 10, 2);
+            }
+            else if (monte == 2)
+            {
+                Push(pilhaEspadas, Pop(monteVirado));
+                limparPilhaNaipe(2);
+                limparPilhaMonteVirado();
+                ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                ExbibirTemporarioSoVerPilha(monteVirado, 2, 10, 2);
+            }
+            else if (monte == 3)
+            {
+                Push(pilhaCopas, Pop(monteVirado));
+                limparPilhaNaipe(3);
+                limparPilhaMonteVirado();
+                ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                ExbibirTemporarioSoVerPilha(monteVirado, 2, 10, 2);
+            }
+            else
+            {
+                Push(pilhaPaus, Pop(monteVirado));
+                limparPilhaNaipe(4);
+                limparPilhaMonteVirado();
+                ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                ExbibirTemporarioSoVerPilha(monteVirado, 2, 10, 2);
+            }
         }
         else
         {
+            limpaMenu();
+            gotoxy(1, 18);
             printf("A carta a ser movida deve ser do mesmo naipe e a proxima da sequencia!!");
         }
     }
     else
     {
-        printf("Nao a nada no monte virado!!\n");
+        limpaMenu();
         gotoxy(1, 18);
+        printf("Nao a nada no monte virado!!\nAperte algo para sair...");
         system("pause");
         limpaMenu();
     }
@@ -5272,6 +5353,12 @@ void contagemDeMovimentos()
 
 int main()
 {
+    // system("color 2F");
+    int width = 80;  // Largura
+    int height = 40; // Altura
+
+    // Comando para redimensionar a janela do console
+    // system("mode con: cols=85 lines=30");
     executar();
     return 0;
 }
