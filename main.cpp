@@ -18,6 +18,7 @@ int movimentos = 0;
 void limparPilhaMonteVirado();
 int buscaFigura(char figBuscada[3]);
 void popularPilhasColunas(TpPilha &monte, TpPilha &p1, TpPilha &p2, TpPilha &p3, TpPilha &p4, TpPilha &p5, TpPilha &p6, TpPilha &p7);
+void telaGanhou ();
 
 // mover cartas
 void destribuirMesa();
@@ -563,6 +564,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna1
                         limparPilhaNaipe(1);
                         ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaOuros
                     }
                     else
@@ -583,6 +585,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna1
                         limparPilhaNaipe(1);
                         ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -603,6 +606,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna1
                         limparPilhaNaipe(2);
                         ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaEspadas
                     }
                     else
@@ -623,6 +627,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna1
                         limparPilhaNaipe(2);
                         ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -643,6 +648,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna1
                         limparPilhaNaipe(3);
                         ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaCopas
                     }
                     else
@@ -663,6 +669,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna1
                         limparPilhaNaipe(3);
                         ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -683,6 +690,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna1
                         limparPilhaNaipe(4);
                         ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaPaus
                     }
                     else
@@ -703,6 +711,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna1
                         limparPilhaNaipe(4);
                         ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -742,6 +751,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna2
                         limparPilhaNaipe(1);
                         ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaOuros
                     }
                     else
@@ -762,6 +772,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna2
                         limparPilhaNaipe(1);
                         ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -782,6 +793,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna2
                         limparPilhaNaipe(2);
                         ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaEspadas
                     }
                     else
@@ -802,6 +814,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna2
                         limparPilhaNaipe(2);
                         ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -822,6 +835,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna2
                         limparPilhaNaipe(3);
                         ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaCopas
                     }
                     else
@@ -842,6 +856,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna2
                         limparPilhaNaipe(3);
                         ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -862,6 +877,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna2
                         limparPilhaNaipe(4);
                         ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaPaus
                     }
                     else
@@ -882,6 +898,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna2
                         limparPilhaNaipe(4);
                         ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -921,6 +938,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna3
                         limparPilhaNaipe(1);
                         ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaOuros
                     }
                     else
@@ -941,6 +959,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna3
                         limparPilhaNaipe(1);
                         ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -961,6 +980,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna3
                         limparPilhaNaipe(2);
                         ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaEspadas
                     }
                     else
@@ -980,7 +1000,8 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         virarUltimaCarta(pilhaColuna3, 3);
                         // virar ultima carta da pilhaColuna3
                         limparPilhaNaipe(2);
-                        ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3); 
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1001,6 +1022,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna3
                         limparPilhaNaipe(3);
                         ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaCopas
                     }
                     else
@@ -1021,6 +1043,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna3
                         limparPilhaNaipe(3);
                         ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1041,6 +1064,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna3
                         limparPilhaNaipe(4);
                         ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaPaus
                     }
                     else
@@ -1061,6 +1085,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna3
                         limparPilhaNaipe(4);
                         ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1100,6 +1125,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna4
                         limparPilhaNaipe(1);
                         ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaOuros
                     }
                     else
@@ -1120,6 +1146,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna4
                         limparPilhaNaipe(1);
                         ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1140,6 +1167,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna4
                         limparPilhaNaipe(2);
                         ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaEspadas
                     }
                     else
@@ -1160,6 +1188,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna4
                         limparPilhaNaipe(2);
                         ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1180,6 +1209,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna4
                         limparPilhaNaipe(3);
                         ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaCopas
                     }
                     else
@@ -1200,6 +1230,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna4
                         limparPilhaNaipe(3);
                         ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1221,6 +1252,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         limparPilhaNaipe(4);
                         ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
                         // redesenhar pilhaPaus
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1240,6 +1272,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna4
                         limparPilhaNaipe(4);
                         ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1280,6 +1313,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         limparPilhaNaipe(1);
                         ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
                         // redesenhar pilhaOuros
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1299,6 +1333,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna5
                         limparPilhaNaipe(1);
                         ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1319,6 +1354,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna5
                         limparPilhaNaipe(2);
                         ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaEspadas
                     }
                     else
@@ -1339,6 +1375,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna5
                         limparPilhaNaipe(2);
                         ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1359,6 +1396,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna5
                         limparPilhaNaipe(3);
                         ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaCopas
                     }
                     else
@@ -1379,6 +1417,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna5
                         limparPilhaNaipe(3);
                         ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1399,6 +1438,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna5
                         limparPilhaNaipe(4);
                         ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaPaus
                     }
                     else
@@ -1419,6 +1459,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna5
                         limparPilhaNaipe(4);
                         ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1441,6 +1482,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
             limpaMenu();
             gotoxy(1, 18);
             printf("Jogada invalida!\nDigite algo para voltar...");
+            contagemDeMovimentos();
             getch();
         }
         else
@@ -1458,6 +1500,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna6
                         limparPilhaNaipe(1);
                         ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaOuros
                     }
                     else
@@ -1478,6 +1521,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna6
                         limparPilhaNaipe(1);
                         ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1498,6 +1542,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna6
                         limparPilhaNaipe(2);
                         ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaEspadas
                     }
                     else
@@ -1518,6 +1563,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna6
                         limparPilhaNaipe(2);
                         ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1538,6 +1584,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna6
                         limparPilhaNaipe(3);
                         ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaCopas
                     }
                     else
@@ -1558,6 +1605,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna6
                         limparPilhaNaipe(3);
                         ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1578,6 +1626,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna6
                         limparPilhaNaipe(4);
                         ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaPaus
                     }
                     else
@@ -1598,6 +1647,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna6
                         limparPilhaNaipe(4);
                         ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1637,6 +1687,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna7
                         limparPilhaNaipe(1);
                         ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaOuros
                     }
                     else
@@ -1657,6 +1708,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna7
                         limparPilhaNaipe(1);
                         ExbibirTemporarioSoVerPilha(pilhaOuros, 77, 4, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1677,6 +1729,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna7
                         limparPilhaNaipe(2);
                         ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaEspadas
                     }
                     else
@@ -1697,6 +1750,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna7
                         limparPilhaNaipe(2);
                         ExbibirTemporarioSoVerPilha(pilhaEspadas, 77, 7, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1717,6 +1771,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna7
                         limparPilhaNaipe(3);
                         ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaCopas
                     }
                     else
@@ -1737,6 +1792,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna7
                         limparPilhaNaipe(3);
                         ExbibirTemporarioSoVerPilha(pilhaCopas, 77, 10, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -1757,6 +1813,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna7
                         limparPilhaNaipe(4);
                         ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        contagemDeMovimentos();
                         // redesenhar pilhaPaus
                     }
                     else
@@ -1777,6 +1834,7 @@ void moveMesaNaipe(TpPilha &pilhaOuros, TpPilha &pilhaEspadas, TpPilha &pilhaCop
                         // virar ultima carta da pilhaColuna7
                         limparPilhaNaipe(4);
                         ExbibirTemporarioSoVerPilha(pilhaPaus, 77, 13, 3);
+                        contagemDeMovimentos();
                     }
                     else
                     {
@@ -5088,10 +5146,6 @@ void moveMonteViradoParaMesa(TpPilha &pilhaMonteVirado, TpPilha &pilhaColuna1, T
     }
 }
 
-void moveMonteViradoParaNaipe()
-{
-}
-
 void limparPilhaMonteVirado()
 {
     int colI = 2, linI = 10, linF = 15, colF = 9;
@@ -5175,6 +5229,7 @@ void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, 
         // limparPilhaMonteVirado();
         // exibir pilhaMonteVirado
         ExbibirTemporarioSoVerPilha(pilhaMonteVirado, 2, 10, 2);
+        contagemDeMovimentos();
     }
     else
     {
@@ -5199,6 +5254,7 @@ void pegarCartaOuResetarBaralho(TpPilha &pilhaMonte, TpPilha &pilhaMonteVirado, 
         limparPilhaMonteVirado();
         // exibir pilhaMonteVirado
         ExbibirTemporarioSoVerPilha(pilhaMonteVirado, 2, 10, 2);
+        contagemDeMovimentos();
     }
 }
 
@@ -5264,6 +5320,9 @@ void executar()
             break;
         }
     } while (op != 27 && !verificaGanhou(pilhaOuros, pilhaEspadas, pilhaCopas, pilhaPaus));
+    if(verificaGanhou(pilhaOuros,pilhaEspadas,pilhaCopas,pilhaPaus)) {
+        telaGanhou();
+    }
 }
 
 void limpaMenu()
@@ -5287,6 +5346,32 @@ int verificaGanhou(TpPilha pilhaOuros, TpPilha pilhaEspadas, TpPilha pilhaCopas,
         return 1;
     }
     return 0;
+}
+
+void telaGanhou () {
+    clrscr();
+
+    int textColors[] = {RED, GREEN, BLUE, YELLOW, MAGENTA, CYAN, WHITE};
+    int backgroundColors[] = {BLACK, RED, GREEN, BLUE, YELLOW, MAGENTA, CYAN, WHITE};
+
+    while (!kbhit()) { // Continue piscando até que uma tecla seja pressionada
+        int textColor = textColors[rand() % 7];
+        int backgroundColor = backgroundColors[rand() % 7];
+
+        textbackground(backgroundColor);
+        clrscr();
+        textcolor(textColor);
+
+        int x[] = {20, 40, 60};
+        int y[] = {10, 12, 14};
+        for (int i = 0; i < 3; ++i) {
+            gotoxy(x[i], y[i]);
+            cprintf("Parabens, voce ganhou!");
+        }
+        Sleep(100);
+    }
+
+    getch();
 }
 
 int buscaFigura(char figBuscada[3])
@@ -5347,30 +5432,14 @@ int verificaPodeEfeturarjogadaMoveNaipeMesa(TpPilha monteNaipe, TpPilha monteMes
 void contagemDeMovimentos()
 {
     movimentos++;
-    gotoxy(1, 20);
+    gotoxy(1, 15);
     printf("Movimentos: %d", movimentos);
 }
 
 int main()
 {
     // system("color 2F");
-    int width = 80;  // Largura
-    int height = 40; // Altura
 
-    // Comando para redimensionar a janela do console
-    // system("mode con: cols=85 lines=30");
     executar();
     return 0;
 }
-
-// a fazeres para agora
-
-// void moveMesaNaipe()
-
-// void moveNaipeMesa()
-
-// void moveMesaMesa()
-
-// void moveMonteViradoParaMesa()
-
-// void moveMonteViradoParaNaipe()
